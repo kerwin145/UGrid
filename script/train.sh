@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python train.py \
+python.exe train.py \
     --structure "unet" \
     --downsampling_policy "lerp" \
     --upsampling_policy "lerp" \
@@ -18,11 +18,11 @@ python train.py \
     --lambda_1 1 \
     --lambda_2 1 \
     --start_epoch 0 \
-    --max_epoch 1000 \
-    --save_every 1 \
+    --max_epoch 100 \
+    --save_every 10 \
     --evaluate_every 1 \
     --checkpoint_root "./checkpoint" \
-    --dataset_root "../../Downloads/SynDat1025" \
+    --dataset_root "../SynDat_1025" \
     --num_workers 8 \
-    --batch_size 4 \
+    --batch_size 6 \
     --seed 9590589012167207234

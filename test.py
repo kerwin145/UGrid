@@ -27,7 +27,7 @@ def test_on_dataset(model, test_loader, device) -> None:
             bc_mask: torch.Tensor = batch['bc_mask'].to(device)
             f: typing.Optional[torch.Tensor] = None
 
-            tup: typing.Tuple[torch.Tensor, int] = model(x, bc_value, bc_mask, f)
+            tup: typing.Tuple[torch.Tensor, np.int64] = model(x, bc_value, bc_mask, f)
             y, iterations_used = tup
 
             absolute_loss, relative_loss = util.relative_residue(y, bc_value, bc_mask, f)
@@ -75,7 +75,7 @@ def test_on_single_data(testcase: str,
 
         for _ in range(benchmark_iteration):
             start_time: float = time.perf_counter_ns()
-            tup: typing.Tuple[torch.Tensor, int] = model(None, bc_value, bc_mask, f)
+            tup: typing.Tuple[torch.Tensor, np.int64] = model(None, bc_value, bc_mask, f)
             y, iterations_used = tup
             time_lst.append(time.perf_counter_ns() - start_time)
 

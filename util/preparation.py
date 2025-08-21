@@ -122,7 +122,7 @@ def gen_punched_random_curve_region(image_size: int) -> typing.Tuple[np.ndarray,
 
     center = np.array([np.random.uniform(-0.16 * image_size / np.sqrt(2), 0.16 * image_size / np.sqrt(2)),
                        np.random.uniform(-0.16 * image_size / np.sqrt(2), 0.16 * image_size / np.sqrt(2))],
-                      dtype=np.int) + image_size // 2
+                      dtype=int) + image_size // 2
     radius = int(np.random.uniform(0.32 * image_size / 4, 0.32 * image_size / 2.5))
     inner: np.ndarray = cv2.circle(np.zeros_like(outer), center, radius, 1, cv2.FILLED)
 

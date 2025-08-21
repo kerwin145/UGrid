@@ -75,6 +75,112 @@ def assemble_poisson_problem(bc_value: np.ndarray,
     return A, rhs
 
 
+# *   *   1   *   *
+# *   2  -8   2   *
+# 1  -8  20  -8   1
+# *   2  -8   2   *
+# *   *   1   *   *
+def assemble_biharmonic_problem(bc_value: np.ndarray,
+                             bc_mask: np.ndarray,
+                             f: typing.Optional[np.ndarray]) -> typing.Tuple[scipy.sparse.csr_matrix, np.ndarray]:
+    image_size: int = bc_mask.shape[0]
+    matrix_size: int = image_size * image_size  # == 1/h^2
+
+    row: typing.List[int] = []
+    col: typing.List[int] = []
+    data: typing.List[float] = []
+
+    k: int = 0
+
+    for i in range(image_size):
+        for j in range(image_size):
+            if bc_mask[i, j] == 1:
+                # boundary pixels
+                row.append(k)
+                col.append(k)
+                data.append(1)
+                k += 1
+                continue
+
+            # i, j - 2
+            if j >= 2:
+                row.append(k)
+                col.append(k - 2)
+                data.append(1)
+            # i , j + 2
+            if j < image_size - 2:
+                row.append(k)
+                col.append(k + 2)
+                data.append(1)
+            # i - 2, j
+            if i >= 2:
+                row.append(k)
+                col.append(k - image_size * 2)
+                data.append(1)
+            # i + 2, j
+            if i < image_size - 2:
+                row.append(k)
+                col.append(k + image_size * 2)
+                data.append(1)
+
+            # i, j - 1
+            if j >= 1:
+                row.append(k)
+                col.append(k - 1)
+                data.append(-8)
+            # i，j + 1
+            if j < image_size - 1:
+                row.append(k)
+                col.append(k + 1)
+                data.append(-8)
+            # i - 1, j
+            if i >= 1:
+                row.append(k)
+                col.append(k - image_size)
+                data.append(-8)
+            # i + 1, j
+            if i < image_size - 1:
+                row.append(k)
+                col.append(k + image_size)
+                data.append(-8)
+
+            # i - 1, j - 1
+            if i >= 1 and j >= 1:
+                row.append(k)
+                col.append(k - image_size - 1)
+                data.append(2)
+            # i - 1, j + 1
+            if i >= 1 and j < image_size - 1:
+                row.append(k)
+                col.append(k - image_size + 1)
+                data.append(2)
+            # i + 1, j - 1
+            if i < image_size - 1 and j >= 1:
+                row.append(k)
+                col.append(k + image_size - 1)
+                data.append(2)
+            # i + 1, j + 1
+            if i < image_size - 1 and j < image_size - 1:
+                row.append(k)
+                col.append(k + image_size + 1)
+                data.append(2)
+            
+            # i, j
+            row.append(k)
+            col.append(k)
+            data.append(20)
+
+            k += 1
+
+    A = scipy.sparse.csr_matrix((data, (row, col)), shape=(matrix_size, matrix_size), dtype=np.float32)
+
+    rhs: np.ndarray = bc_value.reshape(-1)
+
+    if f is not None:
+        rhs += f.reshape(-1)
+
+    return A, rhs
+
 # # noinspection DuplicatedCode, PyPep8Naming
 def scipy_solve(bc_value: np.ndarray,
                 bc_mask: np.ndarray,

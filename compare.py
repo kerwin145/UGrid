@@ -22,7 +22,7 @@ def amgcl_solve_on_single_data(testcase, size):
     solving_time_elapsed: float = 0.0
     total_time_elapsed: float = 0.0
     total_error: float = 0.0
-    duplicate: int = 10
+    duplicate: np.int64 = 10
 
     for _ in range(duplicate):
         iters, error, assembly_time, solving_time, total_time, y = cpmg.amgcl_solve(m_np, f_np, b_np, x_np, 1e-4)
@@ -55,7 +55,7 @@ def amgx_solve_on_single_data(testcase, size):
     f_np: np.ndarray = f.detach().cpu().squeeze().numpy()
     x0_np: np.ndarray = x0.detach().cpu().squeeze().numpy()
 
-    duplicate: int = 20
+    duplicate: np.int64 = 20
     assembly_time_elapsed: float = 0.0
     solving_time_elapsed: float = 0.0
     total_time_elapsed: float = 0.0
