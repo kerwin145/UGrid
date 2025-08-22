@@ -190,7 +190,6 @@ def scipy_solve(bc_value: np.ndarray,
     X.resize(bc_mask.shape)
     return X.astype(np.float32)
 
-
 # # noinspection DuplicatedCode, PyPep8Naming
 # def amgcl_solve(bc_value: np.ndarray,
 #                 bc_mask: np.ndarray,
