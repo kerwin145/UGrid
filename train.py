@@ -55,11 +55,16 @@ def main() -> None:
 
     # torch.autograd.set_detect_anomaly(True)  # for debugging only, do NOT use testcase training!
 
+    if opt.jacobi_step_fn == "biharmonic":
+        jacobi_step_fn = util.biharmonic_jacobi_step
+    else:
+        jacobi_step_fn = util.jacobi_step
+
     # training
     solver = model.Solver(opt.structure, opt.downsampling_policy, opt.upsampling_policy, device,
                           opt.num_iterations, opt.relative_tolerance, opt.initialize_x0,
                           opt.num_mg_layers, opt.num_mg_pre_smoothing, opt.num_mg_post_smoothing,
-                          opt.activation, opt.initialize_trainable_parameters)
+                          opt.activation, opt.initialize_trainable_parameters, jacobi_step_fn)
     trainer = model.Trainer(experienment_name, experienment_checkpoint_path, device,
                             solver, logger,
                             opt.optimizer, opt.scheduler, opt.initial_lr, opt.lambda_1, opt.lambda_2,

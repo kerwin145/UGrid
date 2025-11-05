@@ -69,8 +69,12 @@ def assemble_poisson_problem(bc_value: np.ndarray,
 
     rhs: np.ndarray = bc_value.reshape(-1)
 
+    print(rhs)
+
     if f is not None:
         rhs += f.reshape(-1)
+
+    print(rhs)
 
     return A, rhs
 
@@ -178,7 +182,7 @@ def assemble_biharmonic_problem(bc_value: np.ndarray,
 
     if f is not None:
         rhs += f.reshape(-1)
-
+    
     return A, rhs
 
 # # noinspection DuplicatedCode, PyPep8Naming

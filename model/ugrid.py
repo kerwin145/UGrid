@@ -8,7 +8,7 @@ import torch
 import torch.nn.functional as F
 
 import util
-
+from typing import Callable
 
 class UGrid(torch.nn.Module):
     def __init__(self,
@@ -18,7 +18,8 @@ class UGrid(torch.nn.Module):
                  downsampling_policy: str,
                  upsampling_policy,
                  activation: str,
-                 initialize_trainable_parameters: str):
+                 initialize_trainable_parameters: str,
+                 jacobi_step_fn: Callable = util.jacobi_step):
         super().__init__()
 
         self.num_layers: int = num_layers
@@ -29,6 +30,8 @@ class UGrid(torch.nn.Module):
         self.upsampling_policy: str = upsampling_policy
         self.activation: str = activation
         self.initialize_trainable_parameters: str = initialize_trainable_parameters
+
+        self.jacobi_step_fn = jacobi_step_fn
 
         # Multigrid layer (UNet skip-connection blocks)
         self.mg = UNetSkipConnectionBlock(self.num_pre_smoothing,
@@ -152,7 +155,7 @@ class UGrid(torch.nn.Module):
         # dic[f'1-x-before-presmooth'] = y.detach().squeeze().cpu().numpy()
 
         for _ in range(self.num_pre_smoothing):
-            y = util.jacobi_step(y, bc_value, bc_mask, f)
+            y = self.jacobi_step_fn(y, bc_value, bc_mask, f)
 
         # dic[f'2-x-after-presmooth'] = y.detach().squeeze().cpu().numpy()
 
@@ -176,7 +179,7 @@ class UGrid(torch.nn.Module):
         # dic[f'5-x+delta'] = y.detach().squeeze().cpu().numpy()
 
         for _ in range(self.num_post_smoothing):
-            y = util.jacobi_step(y, bc_value, bc_mask, f)
+            y = self.jacobi_step_fn(y, bc_value, bc_mask, f)
 
         # dic[f'6-x-after-postsmooth'] = y.detach().squeeze().cpu().numpy()
 

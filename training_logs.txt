@@ -1,0 +1,512 @@
+2025-07-20 20:57:41.323 | INFO     | model.trainer:__init__:62 - [Trainer] 4000 training data loaded from ../SynDat_1025\train
+2025-07-20 20:57:41.323 | INFO     | model.trainer:__init__:71 - [Trainer] 0 evaluation data loaded from ../SynDat_1025\evaluate
+
+2025-07-20 20:59:36.088 | INFO     | model.trainer:train:121 - [Epoch 0/99] loss_x = 24.627479553222656
+2025-07-20 20:59:36.093 | INFO     | model.trainer:train:121 - [Epoch 0/99] iterations_used = 16.0
+2025-07-20 20:59:36.101 | INFO     | model.trainer:train:121 - [Epoch 0/99] loss = 24.627479553222656
+2025-07-20 20:59:39.193 | INFO     | model.trainer:train:159 - [Epoch 0/99] Current learning rate = 0.001
+2025-07-20 20:59:39.193 | INFO     | model.trainer:train:169 -
+2025-07-20 21:01:31.932 | INFO     | model.trainer:train:121 - [Epoch 1/99] loss_x = 0.9405195713043213
+2025-07-20 21:01:31.948 | INFO     | model.trainer:train:121 - [Epoch 1/99] iterations_used = 16.0
+2025-07-20 21:01:31.955 | INFO     | model.trainer:train:121 - [Epoch 1/99] loss = 0.9405195713043213
+2025-07-20 21:01:35.047 | INFO     | model.trainer:train:159 - [Epoch 1/99] Current learning rate = 0.001
+2025-07-20 21:01:35.051 | INFO     | model.trainer:train:169 -
+2025-07-20 21:03:27.408 | INFO     | model.trainer:train:121 - [Epoch 2/99] loss_x = 0.7898009419441223
+2025-07-20 21:03:27.418 | INFO     | model.trainer:train:121 - [Epoch 2/99] iterations_used = 16.0
+2025-07-20 21:03:27.424 | INFO     | model.trainer:train:121 - [Epoch 2/99] loss = 0.7898009419441223
+2025-07-20 21:03:30.586 | INFO     | model.trainer:train:159 - [Epoch 2/99] Current learning rate = 0.001
+2025-07-20 21:03:30.586 | INFO     | model.trainer:train:169 -
+2025-07-20 21:05:23.367 | INFO     | model.trainer:train:121 - [Epoch 3/99] loss_x = 0.7381446957588196
+2025-07-20 21:05:23.391 | INFO     | model.trainer:train:121 - [Epoch 3/99] iterations_used = 16.0
+2025-07-20 21:05:23.399 | INFO     | model.trainer:train:121 - [Epoch 3/99] loss = 0.7381446957588196
+2025-07-20 21:05:26.618 | INFO     | model.trainer:train:159 - [Epoch 3/99] Current learning rate = 0.001
+2025-07-20 21:05:26.618 | INFO     | model.trainer:train:169 -
+2025-07-20 21:07:19.681 | INFO     | model.trainer:train:121 - [Epoch 4/99] loss_x = 0.7083984613418579
+2025-07-20 21:07:19.699 | INFO     | model.trainer:train:121 - [Epoch 4/99] iterations_used = 16.0
+2025-07-20 21:07:19.722 | INFO     | model.trainer:train:121 - [Epoch 4/99] loss = 0.7083984613418579
+2025-07-20 21:07:22.856 | INFO     | model.trainer:train:159 - [Epoch 4/99] Current learning rate = 0.001
+2025-07-20 21:07:22.856 | INFO     | model.trainer:train:169 -
+2025-07-20 21:09:15.170 | INFO     | model.trainer:train:121 - [Epoch 5/99] loss_x = 0.6787816882133484
+2025-07-20 21:09:15.179 | INFO     | model.trainer:train:121 - [Epoch 5/99] iterations_used = 16.0
+2025-07-20 21:09:15.186 | INFO     | model.trainer:train:121 - [Epoch 5/99] loss = 0.6787816882133484
+2025-07-20 21:09:18.813 | INFO     | model.trainer:train:159 - [Epoch 5/99] Current learning rate = 0.001
+2025-07-20 21:09:18.813 | INFO     | model.trainer:train:169 -
+2025-07-20 21:11:11.952 | INFO     | model.trainer:train:121 - [Epoch 6/99] loss_x = 0.6415983438491821
+2025-07-20 21:11:11.960 | INFO     | model.trainer:train:121 - [Epoch 6/99] iterations_used = 16.0
+2025-07-20 21:11:11.969 | INFO     | model.trainer:train:121 - [Epoch 6/99] loss = 0.6415983438491821
+2025-07-20 21:11:15.071 | INFO     | model.trainer:train:159 - [Epoch 6/99] Current learning rate = 0.001
+2025-07-20 21:11:15.071 | INFO     | model.trainer:train:169 -
+2025-07-20 21:13:07.380 | INFO     | model.trainer:train:121 - [Epoch 7/99] loss_x = 0.5999976992607117
+2025-07-20 21:13:07.402 | INFO     | model.trainer:train:121 - [Epoch 7/99] iterations_used = 16.0
+2025-07-20 21:13:07.410 | INFO     | model.trainer:train:121 - [Epoch 7/99] loss = 0.5999976992607117
+2025-07-20 21:13:10.517 | INFO     | model.trainer:train:159 - [Epoch 7/99] Current learning rate = 0.001
+2025-07-20 21:13:10.519 | INFO     | model.trainer:train:169 -
+2025-07-20 21:15:03.854 | INFO     | model.trainer:train:121 - [Epoch 8/99] loss_x = 0.5534607768058777
+2025-07-20 21:15:03.863 | INFO     | model.trainer:train:121 - [Epoch 8/99] iterations_used = 16.0
+2025-07-20 21:15:03.873 | INFO     | model.trainer:train:121 - [Epoch 8/99] loss = 0.5534607768058777
+2025-07-20 21:15:07.119 | INFO     | model.trainer:train:159 - [Epoch 8/99] Current learning rate = 0.001
+2025-07-20 21:15:07.119 | INFO     | model.trainer:train:169 -
+2025-07-20 21:17:04.615 | INFO     | model.trainer:train:121 - [Epoch 9/99] loss_x = 0.4654935300350189
+2025-07-20 21:17:04.631 | INFO     | model.trainer:train:121 - [Epoch 9/99] iterations_used = 16.0
+2025-07-20 21:17:04.640 | INFO     | model.trainer:train:121 - [Epoch 9/99] loss = 0.4654935300350189
+2025-07-20 21:17:07.923 | INFO     | model.trainer:train:159 - [Epoch 9/99] Current learning rate = 0.001
+2025-07-20 21:17:07.923 | INFO     | model.trainer:train:166 - [Epoch 9/99] Model saved.
+
+2025-07-20 21:19:08.384 | INFO     | model.trainer:train:121 - [Epoch 10/99] loss_x = 0.31474801898002625
+2025-07-20 21:19:08.394 | INFO     | model.trainer:train:121 - [Epoch 10/99] iterations_used = 16.0
+2025-07-20 21:19:08.402 | INFO     | model.trainer:train:121 - [Epoch 10/99] loss = 0.31474801898002625
+2025-07-20 21:19:11.648 | INFO     | model.trainer:train:159 - [Epoch 10/99] Current learning rate = 0.001
+2025-07-20 21:19:11.649 | INFO     | model.trainer:train:169 -
+2025-07-20 21:21:11.045 | INFO     | model.trainer:train:121 - [Epoch 11/99] loss_x = 0.15355870127677917
+2025-07-20 21:21:11.053 | INFO     | model.trainer:train:121 - [Epoch 11/99] iterations_used = 16.0
+2025-07-20 21:21:11.062 | INFO     | model.trainer:train:121 - [Epoch 11/99] loss = 0.15355870127677917
+2025-07-20 21:21:14.328 | INFO     | model.trainer:train:159 - [Epoch 11/99] Current learning rate = 0.001
+2025-07-20 21:21:14.328 | INFO     | model.trainer:train:169 -
+2025-07-20 21:23:12.048 | INFO     | model.trainer:train:121 - [Epoch 12/99] loss_x = 0.09223436564207077
+2025-07-20 21:23:12.057 | INFO     | model.trainer:train:121 - [Epoch 12/99] iterations_used = 16.0
+2025-07-20 21:23:12.065 | INFO     | model.trainer:train:121 - [Epoch 12/99] loss = 0.09223436564207077
+2025-07-20 21:23:15.330 | INFO     | model.trainer:train:159 - [Epoch 12/99] Current learning rate = 0.001
+2025-07-20 21:23:15.330 | INFO     | model.trainer:train:169 -
+2025-07-20 21:25:12.908 | INFO     | model.trainer:train:121 - [Epoch 13/99] loss_x = 0.0716773271560669
+2025-07-20 21:25:12.918 | INFO     | model.trainer:train:121 - [Epoch 13/99] iterations_used = 16.0
+2025-07-20 21:25:12.926 | INFO     | model.trainer:train:121 - [Epoch 13/99] loss = 0.0716773271560669
+2025-07-20 21:25:16.092 | INFO     | model.trainer:train:159 - [Epoch 13/99] Current learning rate = 0.001
+2025-07-20 21:25:16.092 | INFO     | model.trainer:train:169 -
+2025-07-20 21:27:13.533 | INFO     | model.trainer:train:121 - [Epoch 14/99] loss_x = 0.057780973613262177
+2025-07-20 21:27:13.543 | INFO     | model.trainer:train:121 - [Epoch 14/99] iterations_used = 16.0
+2025-07-20 21:27:13.550 | INFO     | model.trainer:train:121 - [Epoch 14/99] loss = 0.057780973613262177
+2025-07-20 21:27:16.758 | INFO     | model.trainer:train:159 - [Epoch 14/99] Current learning rate = 0.001
+2025-07-20 21:27:16.758 | INFO     | model.trainer:train:169 -
+2025-07-20 21:29:14.268 | INFO     | model.trainer:train:121 - [Epoch 15/99] loss_x = 0.04667256772518158
+2025-07-20 21:29:14.287 | INFO     | model.trainer:train:121 - [Epoch 15/99] iterations_used = 16.0
+2025-07-20 21:29:14.295 | INFO     | model.trainer:train:121 - [Epoch 15/99] loss = 0.04667256772518158
+2025-07-20 21:29:17.466 | INFO     | model.trainer:train:159 - [Epoch 15/99] Current learning rate = 0.001
+2025-07-20 21:29:17.466 | INFO     | model.trainer:train:169 -
+2025-07-20 21:31:17.124 | INFO     | model.trainer:train:121 - [Epoch 16/99] loss_x = 0.010862571187317371
+2025-07-20 21:31:17.134 | INFO     | model.trainer:train:121 - [Epoch 16/99] iterations_used = 16.0
+2025-07-20 21:31:17.142 | INFO     | model.trainer:train:121 - [Epoch 16/99] loss = 0.010862571187317371
+2025-07-20 21:31:22.405 | INFO     | model.trainer:train:159 - [Epoch 16/99] Current learning rate = 0.001
+2025-07-20 21:31:22.405 | INFO     | model.trainer:train:169 -
+2025-07-20 21:33:21.150 | INFO     | model.trainer:train:121 - [Epoch 17/99] loss_x = 0.0055753132328391075
+2025-07-20 21:33:21.159 | INFO     | model.trainer:train:121 - [Epoch 17/99] iterations_used = 16.0
+2025-07-20 21:33:21.168 | INFO     | model.trainer:train:121 - [Epoch 17/99] loss = 0.0055753132328391075
+2025-07-20 21:33:24.379 | INFO     | model.trainer:train:159 - [Epoch 17/99] Current learning rate = 0.001
+2025-07-20 21:33:24.379 | INFO     | model.trainer:train:169 -
+2025-07-20 21:35:24.599 | INFO     | model.trainer:train:121 - [Epoch 18/99] loss_x = 0.0041833072900772095
+2025-07-20 21:35:24.609 | INFO     | model.trainer:train:121 - [Epoch 18/99] iterations_used = 16.0
+2025-07-20 21:35:24.617 | INFO     | model.trainer:train:121 - [Epoch 18/99] loss = 0.0041833072900772095
+2025-07-20 21:35:27.877 | INFO     | model.trainer:train:159 - [Epoch 18/99] Current learning rate = 0.001
+2025-07-20 21:35:27.877 | INFO     | model.trainer:train:169 -
+2025-07-20 21:37:26.327 | INFO     | model.trainer:train:121 - [Epoch 19/99] loss_x = 0.0032620057463645935
+2025-07-20 21:37:26.337 | INFO     | model.trainer:train:121 - [Epoch 19/99] iterations_used = 16.0
+2025-07-20 21:37:26.346 | INFO     | model.trainer:train:121 - [Epoch 19/99] loss = 0.0032620057463645935
+2025-07-20 21:37:29.396 | INFO     | model.trainer:train:159 - [Epoch 19/99] Current learning rate = 0.001
+2025-07-20 21:37:29.396 | INFO     | model.trainer:train:166 - [Epoch 19/99] Model saved.
+
+2025-07-20 21:39:27.210 | INFO     | model.trainer:train:121 - [Epoch 20/99] loss_x = 0.0026229997165501118
+2025-07-20 21:39:27.231 | INFO     | model.trainer:train:121 - [Epoch 20/99] iterations_used = 16.0
+2025-07-20 21:39:27.240 | INFO     | model.trainer:train:121 - [Epoch 20/99] loss = 0.0026229997165501118
+2025-07-20 21:39:30.538 | INFO     | model.trainer:train:159 - [Epoch 20/99] Current learning rate = 0.001
+2025-07-20 21:39:30.538 | INFO     | model.trainer:train:169 -
+2025-07-20 21:41:29.645 | INFO     | model.trainer:train:121 - [Epoch 21/99] loss_x = 0.013795708306133747
+2025-07-20 21:41:29.655 | INFO     | model.trainer:train:121 - [Epoch 21/99] iterations_used = 16.0
+2025-07-20 21:41:29.665 | INFO     | model.trainer:train:121 - [Epoch 21/99] loss = 0.013795708306133747
+2025-07-20 21:41:32.917 | INFO     | model.trainer:train:159 - [Epoch 21/99] Current learning rate = 0.001
+2025-07-20 21:41:32.917 | INFO     | model.trainer:train:169 -
+2025-07-20 21:43:32.549 | INFO     | model.trainer:train:121 - [Epoch 22/99] loss_x = 0.002360238693654537
+2025-07-20 21:43:32.558 | INFO     | model.trainer:train:121 - [Epoch 22/99] iterations_used = 16.0
+2025-07-20 21:43:32.567 | INFO     | model.trainer:train:121 - [Epoch 22/99] loss = 0.002360238693654537
+2025-07-20 21:43:35.879 | INFO     | model.trainer:train:159 - [Epoch 22/99] Current learning rate = 0.001
+2025-07-20 21:43:35.879 | INFO     | model.trainer:train:169 -
+2025-07-20 21:45:35.211 | INFO     | model.trainer:train:121 - [Epoch 23/99] loss_x = 0.00188453181181103
+2025-07-20 21:45:35.233 | INFO     | model.trainer:train:121 - [Epoch 23/99] iterations_used = 16.0
+2025-07-20 21:45:35.242 | INFO     | model.trainer:train:121 - [Epoch 23/99] loss = 0.00188453181181103
+2025-07-20 21:45:38.455 | INFO     | model.trainer:train:159 - [Epoch 23/99] Current learning rate = 0.001
+2025-07-20 21:45:38.455 | INFO     | model.trainer:train:169 -
+2025-07-20 21:47:37.229 | INFO     | model.trainer:train:121 - [Epoch 24/99] loss_x = 0.0017645598854869604
+2025-07-20 21:47:37.238 | INFO     | model.trainer:train:121 - [Epoch 24/99] iterations_used = 16.0
+2025-07-20 21:47:37.247 | INFO     | model.trainer:train:121 - [Epoch 24/99] loss = 0.0017645598854869604
+2025-07-20 21:47:40.583 | INFO     | model.trainer:train:159 - [Epoch 24/99] Current learning rate = 0.001
+2025-07-20 21:47:40.583 | INFO     | model.trainer:train:169 -
+2025-07-20 21:49:38.764 | INFO     | model.trainer:train:121 - [Epoch 25/99] loss_x = 0.0015054678078740835
+2025-07-20 21:49:38.773 | INFO     | model.trainer:train:121 - [Epoch 25/99] iterations_used = 16.0
+2025-07-20 21:49:38.781 | INFO     | model.trainer:train:121 - [Epoch 25/99] loss = 0.0015054678078740835
+2025-07-20 21:49:42.027 | INFO     | model.trainer:train:159 - [Epoch 25/99] Current learning rate = 0.001
+2025-07-20 21:49:42.027 | INFO     | model.trainer:train:169 -
+2025-07-20 21:51:39.435 | INFO     | model.trainer:train:121 - [Epoch 26/99] loss_x = 0.0016924644587561488
+2025-07-20 21:51:39.457 | INFO     | model.trainer:train:121 - [Epoch 26/99] iterations_used = 16.0
+2025-07-20 21:51:39.465 | INFO     | model.trainer:train:121 - [Epoch 26/99] loss = 0.0016924644587561488
+2025-07-20 21:51:42.722 | INFO     | model.trainer:train:159 - [Epoch 26/99] Current learning rate = 0.001
+2025-07-20 21:51:42.723 | INFO     | model.trainer:train:169 -
+2025-07-20 21:53:39.864 | INFO     | model.trainer:train:121 - [Epoch 27/99] loss_x = 0.0013445897493511438
+2025-07-20 21:53:39.874 | INFO     | model.trainer:train:121 - [Epoch 27/99] iterations_used = 16.0
+2025-07-20 21:53:39.883 | INFO     | model.trainer:train:121 - [Epoch 27/99] loss = 0.0013445897493511438
+2025-07-20 21:53:43.505 | INFO     | model.trainer:train:159 - [Epoch 27/99] Current learning rate = 0.001
+2025-07-20 21:53:43.505 | INFO     | model.trainer:train:169 -
+2025-07-20 21:55:41.690 | INFO     | model.trainer:train:121 - [Epoch 28/99] loss_x = 0.0010774376569315791
+2025-07-20 21:55:41.709 | INFO     | model.trainer:train:121 - [Epoch 28/99] iterations_used = 16.0
+2025-07-20 21:55:41.717 | INFO     | model.trainer:train:121 - [Epoch 28/99] loss = 0.0010774376569315791
+2025-07-20 21:55:44.937 | INFO     | model.trainer:train:159 - [Epoch 28/99] Current learning rate = 0.001
+2025-07-20 21:55:44.937 | INFO     | model.trainer:train:169 -
+2025-07-20 21:57:42.466 | INFO     | model.trainer:train:121 - [Epoch 29/99] loss_x = 0.0013624734710901976
+2025-07-20 21:57:42.475 | INFO     | model.trainer:train:121 - [Epoch 29/99] iterations_used = 16.0
+2025-07-20 21:57:42.483 | INFO     | model.trainer:train:121 - [Epoch 29/99] loss = 0.0013624734710901976
+2025-07-20 21:57:45.685 | INFO     | model.trainer:train:159 - [Epoch 29/99] Current learning rate = 0.001
+2025-07-20 21:57:45.685 | INFO     | model.trainer:train:166 - [Epoch 29/99] Model saved.
+
+2025-07-20 21:59:44.913 | INFO     | model.trainer:train:121 - [Epoch 30/99] loss_x = 0.0026927280705422163
+2025-07-20 21:59:44.923 | INFO     | model.trainer:train:121 - [Epoch 30/99] iterations_used = 16.0
+2025-07-20 21:59:44.933 | INFO     | model.trainer:train:121 - [Epoch 30/99] loss = 0.0026927280705422163
+2025-07-20 21:59:48.113 | INFO     | model.trainer:train:159 - [Epoch 30/99] Current learning rate = 0.001
+2025-07-20 21:59:48.113 | INFO     | model.trainer:train:169 -
+2025-07-20 22:01:47.717 | INFO     | model.trainer:train:121 - [Epoch 31/99] loss_x = 0.0007381453760899603
+2025-07-20 22:01:47.734 | INFO     | model.trainer:train:121 - [Epoch 31/99] iterations_used = 16.0
+2025-07-20 22:01:47.741 | INFO     | model.trainer:train:121 - [Epoch 31/99] loss = 0.0007381453760899603
+2025-07-20 22:01:50.928 | INFO     | model.trainer:train:159 - [Epoch 31/99] Current learning rate = 0.001
+2025-07-20 22:01:50.928 | INFO     | model.trainer:train:169 -
+2025-07-20 22:03:48.880 | INFO     | model.trainer:train:121 - [Epoch 32/99] loss_x = 0.0007865538937039673
+2025-07-20 22:03:48.889 | INFO     | model.trainer:train:121 - [Epoch 32/99] iterations_used = 16.0
+2025-07-20 22:03:48.897 | INFO     | model.trainer:train:121 - [Epoch 32/99] loss = 0.0007865538937039673
+2025-07-20 22:03:52.087 | INFO     | model.trainer:train:159 - [Epoch 32/99] Current learning rate = 0.001
+2025-07-20 22:03:52.087 | INFO     | model.trainer:train:169 -
+2025-07-20 22:05:48.760 | INFO     | model.trainer:train:121 - [Epoch 33/99] loss_x = 0.0005946446326561272
+2025-07-20 22:05:48.771 | INFO     | model.trainer:train:121 - [Epoch 33/99] iterations_used = 16.0
+2025-07-20 22:05:48.778 | INFO     | model.trainer:train:121 - [Epoch 33/99] loss = 0.0005946446326561272
+2025-07-20 22:05:52.021 | INFO     | model.trainer:train:159 - [Epoch 33/99] Current learning rate = 0.001
+2025-07-20 22:05:52.021 | INFO     | model.trainer:train:169 -
+2025-07-20 22:07:52.249 | INFO     | model.trainer:train:121 - [Epoch 34/99] loss_x = 0.0005220473394729197
+2025-07-20 22:07:52.268 | INFO     | model.trainer:train:121 - [Epoch 34/99] iterations_used = 16.0
+2025-07-20 22:07:52.276 | INFO     | model.trainer:train:121 - [Epoch 34/99] loss = 0.0005220473394729197
+2025-07-20 22:07:55.533 | INFO     | model.trainer:train:159 - [Epoch 34/99] Current learning rate = 0.001
+2025-07-20 22:07:55.534 | INFO     | model.trainer:train:169 -
+2025-07-20 22:09:55.763 | INFO     | model.trainer:train:121 - [Epoch 35/99] loss_x = 0.0009498848230578005
+2025-07-20 22:09:55.774 | INFO     | model.trainer:train:121 - [Epoch 35/99] iterations_used = 16.0
+2025-07-20 22:09:55.782 | INFO     | model.trainer:train:121 - [Epoch 35/99] loss = 0.0009498848230578005
+2025-07-20 22:09:59.352 | INFO     | model.trainer:train:159 - [Epoch 35/99] Current learning rate = 0.001
+2025-07-20 22:09:59.353 | INFO     | model.trainer:train:169 -
+2025-07-20 22:11:57.890 | INFO     | model.trainer:train:121 - [Epoch 36/99] loss_x = 0.0004423490318004042
+2025-07-20 22:11:57.898 | INFO     | model.trainer:train:121 - [Epoch 36/99] iterations_used = 16.0
+2025-07-20 22:11:57.905 | INFO     | model.trainer:train:121 - [Epoch 36/99] loss = 0.0004423490318004042
+2025-07-20 22:12:01.079 | INFO     | model.trainer:train:159 - [Epoch 36/99] Current learning rate = 0.001
+2025-07-20 22:12:01.080 | INFO     | model.trainer:train:169 -
+2025-07-20 22:13:58.523 | INFO     | model.trainer:train:121 - [Epoch 37/99] loss_x = 0.0004334624973125756
+2025-07-20 22:13:58.533 | INFO     | model.trainer:train:121 - [Epoch 37/99] iterations_used = 16.0
+2025-07-20 22:13:58.540 | INFO     | model.trainer:train:121 - [Epoch 37/99] loss = 0.0004334624973125756
+2025-07-20 22:14:01.771 | INFO     | model.trainer:train:159 - [Epoch 37/99] Current learning rate = 0.001
+2025-07-20 22:14:01.771 | INFO     | model.trainer:train:169 -
+2025-07-20 22:15:59.268 | INFO     | model.trainer:train:121 - [Epoch 38/99] loss_x = 0.00043458782602101564
+2025-07-20 22:15:59.288 | INFO     | model.trainer:train:121 - [Epoch 38/99] iterations_used = 16.0
+2025-07-20 22:15:59.296 | INFO     | model.trainer:train:121 - [Epoch 38/99] loss = 0.00043458782602101564
+2025-07-20 22:16:02.487 | INFO     | model.trainer:train:159 - [Epoch 38/99] Current learning rate = 0.001
+2025-07-20 22:16:02.487 | INFO     | model.trainer:train:169 -
+2025-07-20 22:18:00.181 | INFO     | model.trainer:train:121 - [Epoch 39/99] loss_x = 0.00033627075026743114
+2025-07-20 22:18:00.191 | INFO     | model.trainer:train:121 - [Epoch 39/99] iterations_used = 16.0
+2025-07-20 22:18:00.200 | INFO     | model.trainer:train:121 - [Epoch 39/99] loss = 0.00033627075026743114
+2025-07-20 22:18:03.824 | INFO     | model.trainer:train:159 - [Epoch 39/99] Current learning rate = 0.001
+2025-07-20 22:18:03.824 | INFO     | model.trainer:train:166 - [Epoch 39/99] Model saved.
+
+2025-07-20 22:20:03.749 | INFO     | model.trainer:train:121 - [Epoch 40/99] loss_x = 0.0003633989836089313
+2025-07-20 22:20:03.758 | INFO     | model.trainer:train:121 - [Epoch 40/99] iterations_used = 16.0
+2025-07-20 22:20:03.766 | INFO     | model.trainer:train:121 - [Epoch 40/99] loss = 0.0003633989836089313
+2025-07-20 22:20:07.395 | INFO     | model.trainer:train:159 - [Epoch 40/99] Current learning rate = 0.001
+2025-07-20 22:20:07.395 | INFO     | model.trainer:train:169 -
+2025-07-20 22:22:05.720 | INFO     | model.trainer:train:121 - [Epoch 41/99] loss_x = 0.00027566219796426594
+2025-07-20 22:22:05.729 | INFO     | model.trainer:train:121 - [Epoch 41/99] iterations_used = 16.0
+2025-07-20 22:22:05.737 | INFO     | model.trainer:train:121 - [Epoch 41/99] loss = 0.00027566219796426594
+2025-07-20 22:22:09.320 | INFO     | model.trainer:train:159 - [Epoch 41/99] Current learning rate = 0.001
+2025-07-20 22:22:09.320 | INFO     | model.trainer:train:169 -
+2025-07-20 22:24:07.581 | INFO     | model.trainer:train:121 - [Epoch 42/99] loss_x = 0.0009784700814634562
+2025-07-20 22:24:07.589 | INFO     | model.trainer:train:121 - [Epoch 42/99] iterations_used = 16.0
+2025-07-20 22:24:07.597 | INFO     | model.trainer:train:121 - [Epoch 42/99] loss = 0.0009784700814634562
+2025-07-20 22:24:11.263 | INFO     | model.trainer:train:159 - [Epoch 42/99] Current learning rate = 0.001
+2025-07-20 22:24:11.263 | INFO     | model.trainer:train:169 -
+2025-07-20 22:26:09.289 | INFO     | model.trainer:train:121 - [Epoch 43/99] loss_x = 0.00022833672119304538
+2025-07-20 22:26:09.309 | INFO     | model.trainer:train:121 - [Epoch 43/99] iterations_used = 16.0
+2025-07-20 22:26:09.317 | INFO     | model.trainer:train:121 - [Epoch 43/99] loss = 0.00022833672119304538
+2025-07-20 22:26:13.023 | INFO     | model.trainer:train:159 - [Epoch 43/99] Current learning rate = 0.001
+2025-07-20 22:26:13.023 | INFO     | model.trainer:train:169 -
+2025-07-20 22:28:11.117 | INFO     | model.trainer:train:121 - [Epoch 44/99] loss_x = 0.0001663228904362768
+2025-07-20 22:28:11.137 | INFO     | model.trainer:train:121 - [Epoch 44/99] iterations_used = 16.0
+2025-07-20 22:28:11.146 | INFO     | model.trainer:train:121 - [Epoch 44/99] loss = 0.0001663228904362768
+2025-07-20 22:28:14.865 | INFO     | model.trainer:train:159 - [Epoch 44/99] Current learning rate = 0.001
+2025-07-20 22:28:14.866 | INFO     | model.trainer:train:169 -
+2025-07-20 22:30:14.848 | INFO     | model.trainer:train:121 - [Epoch 45/99] loss_x = 0.00016247171151917428
+2025-07-20 22:30:14.859 | INFO     | model.trainer:train:121 - [Epoch 45/99] iterations_used = 16.0
+2025-07-20 22:30:14.867 | INFO     | model.trainer:train:121 - [Epoch 45/99] loss = 0.00016247171151917428
+2025-07-20 22:30:18.092 | INFO     | model.trainer:train:159 - [Epoch 45/99] Current learning rate = 0.001
+2025-07-20 22:30:18.092 | INFO     | model.trainer:train:169 -
+2025-07-20 22:32:18.667 | INFO     | model.trainer:train:121 - [Epoch 46/99] loss_x = 0.00046584688243456185
+2025-07-20 22:32:18.676 | INFO     | model.trainer:train:121 - [Epoch 46/99] iterations_used = 16.0
+2025-07-20 22:32:18.689 | INFO     | model.trainer:train:121 - [Epoch 46/99] loss = 0.00046584688243456185
+2025-07-20 22:32:21.954 | INFO     | model.trainer:train:159 - [Epoch 46/99] Current learning rate = 0.001
+2025-07-20 22:32:21.955 | INFO     | model.trainer:train:169 -
+2025-07-20 22:34:22.402 | INFO     | model.trainer:train:121 - [Epoch 47/99] loss_x = 0.00017232484242413193
+2025-07-20 22:34:22.412 | INFO     | model.trainer:train:121 - [Epoch 47/99] iterations_used = 16.0
+2025-07-20 22:34:22.420 | INFO     | model.trainer:train:121 - [Epoch 47/99] loss = 0.00017232484242413193
+2025-07-20 22:34:26.115 | INFO     | model.trainer:train:159 - [Epoch 47/99] Current learning rate = 0.001
+2025-07-20 22:34:26.115 | INFO     | model.trainer:train:169 -
+2025-07-20 22:36:26.336 | INFO     | model.trainer:train:121 - [Epoch 48/99] loss_x = 0.0001645395386731252
+2025-07-20 22:36:26.348 | INFO     | model.trainer:train:121 - [Epoch 48/99] iterations_used = 16.0
+2025-07-20 22:36:26.356 | INFO     | model.trainer:train:121 - [Epoch 48/99] loss = 0.0001645395386731252
+2025-07-20 22:36:29.550 | INFO     | model.trainer:train:159 - [Epoch 48/99] Current learning rate = 0.001
+2025-07-20 22:36:29.551 | INFO     | model.trainer:train:169 -
+2025-07-20 22:38:28.432 | INFO     | model.trainer:train:121 - [Epoch 49/99] loss_x = 0.00013005307118874043
+2025-07-20 22:38:28.448 | INFO     | model.trainer:train:121 - [Epoch 49/99] iterations_used = 16.0
+2025-07-20 22:38:28.456 | INFO     | model.trainer:train:121 - [Epoch 49/99] loss = 0.00013005307118874043
+2025-07-20 22:38:31.622 | INFO     | model.trainer:train:159 - [Epoch 49/99] Current learning rate = 0.001
+2025-07-20 22:38:31.622 | INFO     | model.trainer:train:166 - [Epoch 49/99] Model saved.
+
+2025-07-20 22:40:32.167 | INFO     | model.trainer:train:121 - [Epoch 50/99] loss_x = 0.00011941253615077585
+2025-07-20 22:40:32.177 | INFO     | model.trainer:train:121 - [Epoch 50/99] iterations_used = 16.0
+2025-07-20 22:40:32.185 | INFO     | model.trainer:train:121 - [Epoch 50/99] loss = 0.00011941253615077585
+2025-07-20 22:40:35.403 | INFO     | model.trainer:train:159 - [Epoch 50/99] Current learning rate = 0.0001
+2025-07-20 22:40:35.403 | INFO     | model.trainer:train:169 -
+2025-07-20 22:42:35.021 | INFO     | model.trainer:train:121 - [Epoch 51/99] loss_x = 0.00011783744412241504
+2025-07-20 22:42:35.042 | INFO     | model.trainer:train:121 - [Epoch 51/99] iterations_used = 16.0
+2025-07-20 22:42:35.051 | INFO     | model.trainer:train:121 - [Epoch 51/99] loss = 0.00011783744412241504
+2025-07-20 22:42:38.261 | INFO     | model.trainer:train:159 - [Epoch 51/99] Current learning rate = 0.0001
+2025-07-20 22:42:38.261 | INFO     | model.trainer:train:169 -
+2025-07-20 22:44:36.169 | INFO     | model.trainer:train:121 - [Epoch 52/99] loss_x = 0.00011855406046379358
+2025-07-20 22:44:36.189 | INFO     | model.trainer:train:121 - [Epoch 52/99] iterations_used = 16.0
+2025-07-20 22:44:36.197 | INFO     | model.trainer:train:121 - [Epoch 52/99] loss = 0.00011855406046379358
+2025-07-20 22:44:39.429 | INFO     | model.trainer:train:159 - [Epoch 52/99] Current learning rate = 0.0001
+2025-07-20 22:44:39.429 | INFO     | model.trainer:train:169 -
+2025-07-20 22:46:38.534 | INFO     | model.trainer:train:121 - [Epoch 53/99] loss_x = 0.00011708778765751049
+2025-07-20 22:46:38.552 | INFO     | model.trainer:train:121 - [Epoch 53/99] iterations_used = 16.0
+2025-07-20 22:46:38.562 | INFO     | model.trainer:train:121 - [Epoch 53/99] loss = 0.00011708778765751049
+2025-07-20 22:46:42.133 | INFO     | model.trainer:train:159 - [Epoch 53/99] Current learning rate = 0.0001
+2025-07-20 22:46:42.133 | INFO     | model.trainer:train:169 -
+2025-07-20 22:48:42.025 | INFO     | model.trainer:train:121 - [Epoch 54/99] loss_x = 0.00012027691263938323
+2025-07-20 22:48:42.035 | INFO     | model.trainer:train:121 - [Epoch 54/99] iterations_used = 16.0
+2025-07-20 22:48:42.045 | INFO     | model.trainer:train:121 - [Epoch 54/99] loss = 0.00012027691263938323
+2025-07-20 22:48:45.296 | INFO     | model.trainer:train:159 - [Epoch 54/99] Current learning rate = 0.0001
+2025-07-20 22:48:45.297 | INFO     | model.trainer:train:169 -
+2025-07-20 22:50:45.001 | INFO     | model.trainer:train:121 - [Epoch 55/99] loss_x = 0.00011528912000358105
+2025-07-20 22:50:45.011 | INFO     | model.trainer:train:121 - [Epoch 55/99] iterations_used = 16.0
+2025-07-20 22:50:45.021 | INFO     | model.trainer:train:121 - [Epoch 55/99] loss = 0.00011528912000358105
+2025-07-20 22:50:48.152 | INFO     | model.trainer:train:159 - [Epoch 55/99] Current learning rate = 0.0001
+2025-07-20 22:50:48.152 | INFO     | model.trainer:train:169 -
+2025-07-20 22:52:46.041 | INFO     | model.trainer:train:121 - [Epoch 56/99] loss_x = 0.00013259227853268385
+2025-07-20 22:52:46.051 | INFO     | model.trainer:train:121 - [Epoch 56/99] iterations_used = 16.0
+2025-07-20 22:52:46.059 | INFO     | model.trainer:train:121 - [Epoch 56/99] loss = 0.00013259227853268385
+2025-07-20 22:52:49.359 | INFO     | model.trainer:train:159 - [Epoch 56/99] Current learning rate = 0.0001
+2025-07-20 22:52:49.359 | INFO     | model.trainer:train:169 -
+2025-07-20 22:54:47.790 | INFO     | model.trainer:train:121 - [Epoch 57/99] loss_x = 0.00010968009883072227
+2025-07-20 22:54:47.800 | INFO     | model.trainer:train:121 - [Epoch 57/99] iterations_used = 16.0
+2025-07-20 22:54:47.809 | INFO     | model.trainer:train:121 - [Epoch 57/99] loss = 0.00010968009883072227
+2025-07-20 22:54:51.068 | INFO     | model.trainer:train:159 - [Epoch 57/99] Current learning rate = 0.0001
+2025-07-20 22:54:51.068 | INFO     | model.trainer:train:169 -
+2025-07-20 22:56:51.926 | INFO     | model.trainer:train:121 - [Epoch 58/99] loss_x = 0.00011210585944354534
+2025-07-20 22:56:51.935 | INFO     | model.trainer:train:121 - [Epoch 58/99] iterations_used = 16.0
+2025-07-20 22:56:51.943 | INFO     | model.trainer:train:121 - [Epoch 58/99] loss = 0.00011210585944354534
+2025-07-20 22:56:55.082 | INFO     | model.trainer:train:159 - [Epoch 58/99] Current learning rate = 0.0001
+2025-07-20 22:56:55.082 | INFO     | model.trainer:train:169 -
+2025-07-20 22:58:54.886 | INFO     | model.trainer:train:121 - [Epoch 59/99] loss_x = 0.00011400490620872006
+2025-07-20 22:58:54.895 | INFO     | model.trainer:train:121 - [Epoch 59/99] iterations_used = 16.0
+2025-07-20 22:58:54.903 | INFO     | model.trainer:train:121 - [Epoch 59/99] loss = 0.00011400490620872006
+2025-07-20 22:58:58.120 | INFO     | model.trainer:train:159 - [Epoch 59/99] Current learning rate = 0.0001
+2025-07-20 22:58:58.120 | INFO     | model.trainer:train:166 - [Epoch 59/99] Model saved.
+
+2025-07-20 23:00:58.076 | INFO     | model.trainer:train:121 - [Epoch 60/99] loss_x = 0.00011124102456960827
+2025-07-20 23:00:58.086 | INFO     | model.trainer:train:121 - [Epoch 60/99] iterations_used = 16.0
+2025-07-20 23:00:58.093 | INFO     | model.trainer:train:121 - [Epoch 60/99] loss = 0.00011124102456960827
+2025-07-20 23:01:01.389 | INFO     | model.trainer:train:159 - [Epoch 60/99] Current learning rate = 0.0001
+2025-07-20 23:01:01.389 | INFO     | model.trainer:train:169 -
+2025-07-20 23:03:01.278 | INFO     | model.trainer:train:121 - [Epoch 61/99] loss_x = 0.00011705916404025629
+2025-07-20 23:03:01.295 | INFO     | model.trainer:train:121 - [Epoch 61/99] iterations_used = 16.0
+2025-07-20 23:03:01.303 | INFO     | model.trainer:train:121 - [Epoch 61/99] loss = 0.00011705916404025629
+2025-07-20 23:03:04.955 | INFO     | model.trainer:train:159 - [Epoch 61/99] Current learning rate = 0.0001
+2025-07-20 23:03:04.956 | INFO     | model.trainer:train:169 -
+2025-07-20 23:05:06.105 | INFO     | model.trainer:train:121 - [Epoch 62/99] loss_x = 0.00011144713789690286
+2025-07-20 23:05:06.116 | INFO     | model.trainer:train:121 - [Epoch 62/99] iterations_used = 16.0
+2025-07-20 23:05:06.124 | INFO     | model.trainer:train:121 - [Epoch 62/99] loss = 0.00011144713789690286
+2025-07-20 23:05:09.437 | INFO     | model.trainer:train:159 - [Epoch 62/99] Current learning rate = 0.0001
+2025-07-20 23:05:09.437 | INFO     | model.trainer:train:169 -
+2025-07-20 23:07:08.663 | INFO     | model.trainer:train:121 - [Epoch 63/99] loss_x = 0.00010551465675234795
+2025-07-20 23:07:08.672 | INFO     | model.trainer:train:121 - [Epoch 63/99] iterations_used = 16.0
+2025-07-20 23:07:08.680 | INFO     | model.trainer:train:121 - [Epoch 63/99] loss = 0.00010551465675234795
+2025-07-20 23:07:11.901 | INFO     | model.trainer:train:159 - [Epoch 63/99] Current learning rate = 0.0001
+2025-07-20 23:07:11.902 | INFO     | model.trainer:train:169 -
+2025-07-20 23:09:11.545 | INFO     | model.trainer:train:121 - [Epoch 64/99] loss_x = 0.00010320910951122642
+2025-07-20 23:09:11.554 | INFO     | model.trainer:train:121 - [Epoch 64/99] iterations_used = 16.0
+2025-07-20 23:09:11.563 | INFO     | model.trainer:train:121 - [Epoch 64/99] loss = 0.00010320910951122642
+2025-07-20 23:09:14.801 | INFO     | model.trainer:train:159 - [Epoch 64/99] Current learning rate = 0.0001
+2025-07-20 23:09:14.801 | INFO     | model.trainer:train:169 -
+2025-07-20 23:11:12.671 | INFO     | model.trainer:train:121 - [Epoch 65/99] loss_x = 0.00010434108844492584
+2025-07-20 23:11:12.680 | INFO     | model.trainer:train:121 - [Epoch 65/99] iterations_used = 16.0
+2025-07-20 23:11:12.688 | INFO     | model.trainer:train:121 - [Epoch 65/99] loss = 0.00010434108844492584
+2025-07-20 23:11:15.967 | INFO     | model.trainer:train:159 - [Epoch 65/99] Current learning rate = 0.0001
+2025-07-20 23:11:15.967 | INFO     | model.trainer:train:169 -
+2025-07-20 23:13:13.944 | INFO     | model.trainer:train:121 - [Epoch 66/99] loss_x = 0.00010750575893325731
+2025-07-20 23:13:13.954 | INFO     | model.trainer:train:121 - [Epoch 66/99] iterations_used = 16.0
+2025-07-20 23:13:13.962 | INFO     | model.trainer:train:121 - [Epoch 66/99] loss = 0.00010750575893325731
+2025-07-20 23:13:17.180 | INFO     | model.trainer:train:159 - [Epoch 66/99] Current learning rate = 0.0001
+2025-07-20 23:13:17.180 | INFO     | model.trainer:train:169 -
+2025-07-20 23:15:15.904 | INFO     | model.trainer:train:121 - [Epoch 67/99] loss_x = 0.00010539461800362915
+2025-07-20 23:15:15.913 | INFO     | model.trainer:train:121 - [Epoch 67/99] iterations_used = 16.0
+2025-07-20 23:15:15.922 | INFO     | model.trainer:train:121 - [Epoch 67/99] loss = 0.00010539461800362915
+2025-07-20 23:15:19.529 | INFO     | model.trainer:train:159 - [Epoch 67/99] Current learning rate = 0.0001
+2025-07-20 23:15:19.529 | INFO     | model.trainer:train:169 -
+2025-07-20 23:17:17.949 | INFO     | model.trainer:train:121 - [Epoch 68/99] loss_x = 0.00010491358261788264
+2025-07-20 23:17:17.958 | INFO     | model.trainer:train:121 - [Epoch 68/99] iterations_used = 16.0
+2025-07-20 23:17:17.966 | INFO     | model.trainer:train:121 - [Epoch 68/99] loss = 0.00010491358261788264
+2025-07-20 23:17:21.184 | INFO     | model.trainer:train:159 - [Epoch 68/99] Current learning rate = 0.0001
+2025-07-20 23:17:21.184 | INFO     | model.trainer:train:169 -
+2025-07-20 23:19:18.951 | INFO     | model.trainer:train:121 - [Epoch 69/99] loss_x = 0.0001020166018861346
+2025-07-20 23:19:18.969 | INFO     | model.trainer:train:121 - [Epoch 69/99] iterations_used = 16.0
+2025-07-20 23:19:18.978 | INFO     | model.trainer:train:121 - [Epoch 69/99] loss = 0.0001020166018861346
+2025-07-20 23:19:22.258 | INFO     | model.trainer:train:159 - [Epoch 69/99] Current learning rate = 0.0001
+2025-07-20 23:19:22.259 | INFO     | model.trainer:train:166 - [Epoch 69/99] Model saved.
+
+2025-07-20 23:21:20.489 | INFO     | model.trainer:train:121 - [Epoch 70/99] loss_x = 0.0001006210659397766
+2025-07-20 23:21:20.497 | INFO     | model.trainer:train:121 - [Epoch 70/99] iterations_used = 16.0
+2025-07-20 23:21:20.506 | INFO     | model.trainer:train:121 - [Epoch 70/99] loss = 0.0001006210659397766
+2025-07-20 23:21:24.148 | INFO     | model.trainer:train:159 - [Epoch 70/99] Current learning rate = 0.0001
+2025-07-20 23:21:24.149 | INFO     | model.trainer:train:169 -
+2025-07-20 23:23:21.904 | INFO     | model.trainer:train:121 - [Epoch 71/99] loss_x = 9.890898218145594e-05
+2025-07-20 23:23:21.914 | INFO     | model.trainer:train:121 - [Epoch 71/99] iterations_used = 16.0
+2025-07-20 23:23:21.927 | INFO     | model.trainer:train:121 - [Epoch 71/99] loss = 9.890898218145594e-05
+2025-07-20 23:23:25.538 | INFO     | model.trainer:train:159 - [Epoch 71/99] Current learning rate = 0.0001
+2025-07-20 23:23:25.540 | INFO     | model.trainer:train:169 -
+2025-07-20 23:25:23.827 | INFO     | model.trainer:train:121 - [Epoch 72/99] loss_x = 9.750406024977565e-05
+2025-07-20 23:25:23.837 | INFO     | model.trainer:train:121 - [Epoch 72/99] iterations_used = 16.0
+2025-07-20 23:25:23.848 | INFO     | model.trainer:train:121 - [Epoch 72/99] loss = 9.750406024977565e-05
+2025-07-20 23:25:27.359 | INFO     | model.trainer:train:159 - [Epoch 72/99] Current learning rate = 0.0001
+2025-07-20 23:25:27.360 | INFO     | model.trainer:train:169 -
+2025-07-20 23:27:25.500 | INFO     | model.trainer:train:121 - [Epoch 73/99] loss_x = 9.586306987330317e-05
+2025-07-20 23:27:25.510 | INFO     | model.trainer:train:121 - [Epoch 73/99] iterations_used = 16.0
+2025-07-20 23:27:25.518 | INFO     | model.trainer:train:121 - [Epoch 73/99] loss = 9.586306987330317e-05
+2025-07-20 23:27:29.106 | INFO     | model.trainer:train:159 - [Epoch 73/99] Current learning rate = 0.0001
+2025-07-20 23:27:29.106 | INFO     | model.trainer:train:169 -
+2025-07-20 23:29:28.059 | INFO     | model.trainer:train:121 - [Epoch 74/99] loss_x = 9.680895891506225e-05
+2025-07-20 23:29:28.072 | INFO     | model.trainer:train:121 - [Epoch 74/99] iterations_used = 16.0
+2025-07-20 23:29:28.080 | INFO     | model.trainer:train:121 - [Epoch 74/99] loss = 9.680895891506225e-05
+2025-07-20 23:29:31.292 | INFO     | model.trainer:train:159 - [Epoch 74/99] Current learning rate = 0.0001
+2025-07-20 23:29:31.293 | INFO     | model.trainer:train:169 -
+2025-07-20 23:31:29.198 | INFO     | model.trainer:train:121 - [Epoch 75/99] loss_x = 0.00010000374459195882
+2025-07-20 23:31:29.208 | INFO     | model.trainer:train:121 - [Epoch 75/99] iterations_used = 16.0
+2025-07-20 23:31:29.216 | INFO     | model.trainer:train:121 - [Epoch 75/99] loss = 0.00010000374459195882
+2025-07-20 23:31:32.433 | INFO     | model.trainer:train:159 - [Epoch 75/99] Current learning rate = 0.0001
+2025-07-20 23:31:32.433 | INFO     | model.trainer:train:169 -
+2025-07-20 23:33:29.887 | INFO     | model.trainer:train:121 - [Epoch 76/99] loss_x = 9.374832006869838e-05
+2025-07-20 23:33:29.898 | INFO     | model.trainer:train:121 - [Epoch 76/99] iterations_used = 16.0
+2025-07-20 23:33:29.906 | INFO     | model.trainer:train:121 - [Epoch 76/99] loss = 9.374832006869838e-05
+2025-07-20 23:33:33.127 | INFO     | model.trainer:train:159 - [Epoch 76/99] Current learning rate = 0.0001
+2025-07-20 23:33:33.127 | INFO     | model.trainer:train:169 -
+2025-07-20 23:35:30.926 | INFO     | model.trainer:train:121 - [Epoch 77/99] loss_x = 9.73783535300754e-05
+2025-07-20 23:35:30.941 | INFO     | model.trainer:train:121 - [Epoch 77/99] iterations_used = 16.0
+2025-07-20 23:35:30.949 | INFO     | model.trainer:train:121 - [Epoch 77/99] loss = 9.73783535300754e-05
+2025-07-20 23:35:34.317 | INFO     | model.trainer:train:159 - [Epoch 77/99] Current learning rate = 0.0001
+2025-07-20 23:35:34.317 | INFO     | model.trainer:train:169 -
+2025-07-20 23:37:31.714 | INFO     | model.trainer:train:121 - [Epoch 78/99] loss_x = 0.00010371566895628348
+2025-07-20 23:37:31.722 | INFO     | model.trainer:train:121 - [Epoch 78/99] iterations_used = 16.0
+2025-07-20 23:37:31.731 | INFO     | model.trainer:train:121 - [Epoch 78/99] loss = 0.00010371566895628348
+2025-07-20 23:37:34.801 | INFO     | model.trainer:train:159 - [Epoch 78/99] Current learning rate = 0.0001
+2025-07-20 23:37:34.801 | INFO     | model.trainer:train:169 -
+2025-07-20 23:39:30.552 | INFO     | model.trainer:train:121 - [Epoch 79/99] loss_x = 9.336772200185806e-05
+2025-07-20 23:39:30.569 | INFO     | model.trainer:train:121 - [Epoch 79/99] iterations_used = 16.0
+2025-07-20 23:39:30.584 | INFO     | model.trainer:train:121 - [Epoch 79/99] loss = 9.336772200185806e-05
+2025-07-20 23:39:33.910 | INFO     | model.trainer:train:159 - [Epoch 79/99] Current learning rate = 0.0001
+2025-07-20 23:39:33.911 | INFO     | model.trainer:train:166 - [Epoch 79/99] Model saved.
+
+2025-07-20 23:41:31.920 | INFO     | model.trainer:train:121 - [Epoch 80/99] loss_x = 9.275594493374228e-05
+2025-07-20 23:41:31.931 | INFO     | model.trainer:train:121 - [Epoch 80/99] iterations_used = 16.0
+2025-07-20 23:41:31.942 | INFO     | model.trainer:train:121 - [Epoch 80/99] loss = 9.275594493374228e-05
+2025-07-20 23:41:35.144 | INFO     | model.trainer:train:159 - [Epoch 80/99] Current learning rate = 0.0001
+2025-07-20 23:41:35.145 | INFO     | model.trainer:train:169 -
+2025-07-20 23:43:32.185 | INFO     | model.trainer:train:121 - [Epoch 81/99] loss_x = 9.206678805639967e-05
+2025-07-20 23:43:32.206 | INFO     | model.trainer:train:121 - [Epoch 81/99] iterations_used = 16.0
+2025-07-20 23:43:32.213 | INFO     | model.trainer:train:121 - [Epoch 81/99] loss = 9.206678805639967e-05
+2025-07-20 23:43:35.391 | INFO     | model.trainer:train:159 - [Epoch 81/99] Current learning rate = 0.0001
+2025-07-20 23:43:35.392 | INFO     | model.trainer:train:169 -
+2025-07-20 23:45:33.045 | INFO     | model.trainer:train:121 - [Epoch 82/99] loss_x = 9.183905058307573e-05
+2025-07-20 23:45:33.065 | INFO     | model.trainer:train:121 - [Epoch 82/99] iterations_used = 16.0
+2025-07-20 23:45:33.074 | INFO     | model.trainer:train:121 - [Epoch 82/99] loss = 9.183905058307573e-05
+2025-07-20 23:45:36.323 | INFO     | model.trainer:train:159 - [Epoch 82/99] Current learning rate = 0.0001
+2025-07-20 23:45:36.323 | INFO     | model.trainer:train:169 -
+2025-07-20 23:47:33.572 | INFO     | model.trainer:train:121 - [Epoch 83/99] loss_x = 9.437401604373008e-05
+2025-07-20 23:47:33.582 | INFO     | model.trainer:train:121 - [Epoch 83/99] iterations_used = 16.0
+2025-07-20 23:47:33.590 | INFO     | model.trainer:train:121 - [Epoch 83/99] loss = 9.437401604373008e-05
+2025-07-20 23:47:36.840 | INFO     | model.trainer:train:159 - [Epoch 83/99] Current learning rate = 0.0001
+2025-07-20 23:47:36.840 | INFO     | model.trainer:train:169 -
+2025-07-20 23:49:35.660 | INFO     | model.trainer:train:121 - [Epoch 84/99] loss_x = 9.307880100095645e-05
+2025-07-20 23:49:35.681 | INFO     | model.trainer:train:121 - [Epoch 84/99] iterations_used = 16.0
+2025-07-20 23:49:35.689 | INFO     | model.trainer:train:121 - [Epoch 84/99] loss = 9.307880100095645e-05
+2025-07-20 23:49:38.983 | INFO     | model.trainer:train:159 - [Epoch 84/99] Current learning rate = 0.0001
+2025-07-20 23:49:38.983 | INFO     | model.trainer:train:169 -
+2025-07-20 23:51:37.423 | INFO     | model.trainer:train:121 - [Epoch 85/99] loss_x = 8.995204552775249e-05
+2025-07-20 23:51:37.445 | INFO     | model.trainer:train:121 - [Epoch 85/99] iterations_used = 16.0
+2025-07-20 23:51:37.453 | INFO     | model.trainer:train:121 - [Epoch 85/99] loss = 8.995204552775249e-05
+2025-07-20 23:51:40.752 | INFO     | model.trainer:train:159 - [Epoch 85/99] Current learning rate = 0.0001
+2025-07-20 23:51:40.752 | INFO     | model.trainer:train:169 -
+2025-07-20 23:53:40.323 | INFO     | model.trainer:train:121 - [Epoch 86/99] loss_x = 0.00010112626478075981
+2025-07-20 23:53:40.332 | INFO     | model.trainer:train:121 - [Epoch 86/99] iterations_used = 16.0
+2025-07-20 23:53:40.340 | INFO     | model.trainer:train:121 - [Epoch 86/99] loss = 0.00010112626478075981
+2025-07-20 23:53:43.675 | INFO     | model.trainer:train:159 - [Epoch 86/99] Current learning rate = 0.0001
+2025-07-20 23:53:43.675 | INFO     | model.trainer:train:169 -
+2025-07-20 23:55:40.197 | INFO     | model.trainer:train:121 - [Epoch 87/99] loss_x = 8.826894190860912e-05
+2025-07-20 23:55:40.209 | INFO     | model.trainer:train:121 - [Epoch 87/99] iterations_used = 16.0
+2025-07-20 23:55:40.216 | INFO     | model.trainer:train:121 - [Epoch 87/99] loss = 8.826894190860912e-05
+2025-07-20 23:55:43.446 | INFO     | model.trainer:train:159 - [Epoch 87/99] Current learning rate = 0.0001
+2025-07-20 23:55:43.446 | INFO     | model.trainer:train:169 -
+2025-07-20 23:57:37.182 | INFO     | model.trainer:train:121 - [Epoch 88/99] loss_x = 8.954748773248866e-05
+2025-07-20 23:57:37.189 | INFO     | model.trainer:train:121 - [Epoch 88/99] iterations_used = 16.0
+2025-07-20 23:57:37.196 | INFO     | model.trainer:train:121 - [Epoch 88/99] loss = 8.954748773248866e-05
+2025-07-20 23:57:40.278 | INFO     | model.trainer:train:159 - [Epoch 88/99] Current learning rate = 0.0001
+2025-07-20 23:57:40.278 | INFO     | model.trainer:train:169 -
+2025-07-20 23:59:32.778 | INFO     | model.trainer:train:121 - [Epoch 89/99] loss_x = 8.789388812147081e-05
+2025-07-20 23:59:32.786 | INFO     | model.trainer:train:121 - [Epoch 89/99] iterations_used = 16.0
+2025-07-20 23:59:32.795 | INFO     | model.trainer:train:121 - [Epoch 89/99] loss = 8.789388812147081e-05
+2025-07-20 23:59:35.833 | INFO     | model.trainer:train:159 - [Epoch 89/99] Current learning rate = 0.0001
+2025-07-20 23:59:35.837 | INFO     | model.trainer:train:166 - [Epoch 89/99] Model saved.
+
+2025-07-21 00:01:28.101 | INFO     | model.trainer:train:121 - [Epoch 90/99] loss_x = 8.928328315960243e-05
+2025-07-21 00:01:28.110 | INFO     | model.trainer:train:121 - [Epoch 90/99] iterations_used = 16.0
+2025-07-21 00:01:28.118 | INFO     | model.trainer:train:121 - [Epoch 90/99] loss = 8.928328315960243e-05
+2025-07-21 00:01:31.138 | INFO     | model.trainer:train:159 - [Epoch 90/99] Current learning rate = 0.0001
+2025-07-21 00:01:31.138 | INFO     | model.trainer:train:169 -
+2025-07-21 00:03:23.268 | INFO     | model.trainer:train:121 - [Epoch 91/99] loss_x = 8.931036427384242e-05
+2025-07-21 00:03:23.278 | INFO     | model.trainer:train:121 - [Epoch 91/99] iterations_used = 16.0
+2025-07-21 00:03:23.285 | INFO     | model.trainer:train:121 - [Epoch 91/99] loss = 8.931036427384242e-05
+2025-07-21 00:03:26.352 | INFO     | model.trainer:train:159 - [Epoch 91/99] Current learning rate = 0.0001
+2025-07-21 00:03:26.352 | INFO     | model.trainer:train:169 -
+2025-07-21 00:05:18.477 | INFO     | model.trainer:train:121 - [Epoch 92/99] loss_x = 8.984094165498391e-05
+2025-07-21 00:05:18.485 | INFO     | model.trainer:train:121 - [Epoch 92/99] iterations_used = 16.0
+2025-07-21 00:05:18.492 | INFO     | model.trainer:train:121 - [Epoch 92/99] loss = 8.984094165498391e-05
+2025-07-21 00:05:21.511 | INFO     | model.trainer:train:159 - [Epoch 92/99] Current learning rate = 0.0001
+2025-07-21 00:05:21.511 | INFO     | model.trainer:train:169 -
+2025-07-21 00:07:13.781 | INFO     | model.trainer:train:121 - [Epoch 93/99] loss_x = 8.677881123730913e-05
+2025-07-21 00:07:13.789 | INFO     | model.trainer:train:121 - [Epoch 93/99] iterations_used = 16.0
+2025-07-21 00:07:13.801 | INFO     | model.trainer:train:121 - [Epoch 93/99] loss = 8.677881123730913e-05
+2025-07-21 00:07:17.404 | INFO     | model.trainer:train:159 - [Epoch 93/99] Current learning rate = 0.0001
+2025-07-21 00:07:17.404 | INFO     | model.trainer:train:169 -
+2025-07-21 00:09:09.793 | INFO     | model.trainer:train:121 - [Epoch 94/99] loss_x = 9.060948650585487e-05
+2025-07-21 00:09:09.801 | INFO     | model.trainer:train:121 - [Epoch 94/99] iterations_used = 16.0
+2025-07-21 00:09:09.810 | INFO     | model.trainer:train:121 - [Epoch 94/99] loss = 9.060948650585487e-05
+2025-07-21 00:09:13.404 | INFO     | model.trainer:train:159 - [Epoch 94/99] Current learning rate = 0.0001
+2025-07-21 00:09:13.404 | INFO     | model.trainer:train:169 -
+2025-07-21 00:11:05.763 | INFO     | model.trainer:train:121 - [Epoch 95/99] loss_x = 8.72472592163831e-05
+2025-07-21 00:11:05.770 | INFO     | model.trainer:train:121 - [Epoch 95/99] iterations_used = 16.0
+2025-07-21 00:11:05.781 | INFO     | model.trainer:train:121 - [Epoch 95/99] loss = 8.72472592163831e-05
+2025-07-21 00:11:09.414 | INFO     | model.trainer:train:159 - [Epoch 95/99] Current learning rate = 0.0001
+2025-07-21 00:11:09.414 | INFO     | model.trainer:train:169 -
+2025-07-21 00:13:01.865 | INFO     | model.trainer:train:121 - [Epoch 96/99] loss_x = 8.693362906342372e-05
+2025-07-21 00:13:01.878 | INFO     | model.trainer:train:121 - [Epoch 96/99] iterations_used = 16.0
+2025-07-21 00:13:01.886 | INFO     | model.trainer:train:121 - [Epoch 96/99] loss = 8.693362906342372e-05
+2025-07-21 00:13:05.498 | INFO     | model.trainer:train:159 - [Epoch 96/99] Current learning rate = 0.0001
+2025-07-21 00:13:05.498 | INFO     | model.trainer:train:169 -
+2025-07-21 00:14:57.941 | INFO     | model.trainer:train:121 - [Epoch 97/99] loss_x = 8.566671749576926e-05
+2025-07-21 00:14:57.950 | INFO     | model.trainer:train:121 - [Epoch 97/99] iterations_used = 16.0
+2025-07-21 00:14:57.958 | INFO     | model.trainer:train:121 - [Epoch 97/99] loss = 8.566671749576926e-05
+2025-07-21 00:15:01.505 | INFO     | model.trainer:train:159 - [Epoch 97/99] Current learning rate = 0.0001
+2025-07-21 00:15:01.505 | INFO     | model.trainer:train:169 -
+2025-07-21 00:16:54.035 | INFO     | model.trainer:train:121 - [Epoch 98/99] loss_x = 8.830821025185287e-05
+2025-07-21 00:16:54.044 | INFO     | model.trainer:train:121 - [Epoch 98/99] iterations_used = 16.0
+2025-07-21 00:16:54.052 | INFO     | model.trainer:train:121 - [Epoch 98/99] loss = 8.830821025185287e-05
+2025-07-21 00:16:57.499 | INFO     | model.trainer:train:159 - [Epoch 98/99] Current learning rate = 0.0001
+2025-07-21 00:16:57.499 | INFO     | model.trainer:train:169 -
+2025-07-21 00:18:49.670 | INFO     | model.trainer:train:121 - [Epoch 99/99] loss_x = 8.64887551870197e-05
+2025-07-21 00:18:49.683 | INFO     | model.trainer:train:121 - [Epoch 99/99] iterations_used = 16.0
+2025-07-21 00:18:49.691 | INFO     | model.trainer:train:121 - [Epoch 99/99] loss = 8.64887551870197e-05
+2025-07-21 00:18:53.204 | INFO     | model.trainer:train:159 - [Epoch 99/99] Current learning rate = 0.0001
+2025-07-21 00:18:53.205 | INFO     | model.trainer:train:166 - [Epoch 99/99] Model saved.

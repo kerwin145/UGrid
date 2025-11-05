@@ -21,7 +21,8 @@ class Solver:
                  num_mg_pre_smoothing: int,
                  num_mg_post_smoothing: int,
                  activation: str,
-                 initialize_trainable_parameters: str):
+                 initialize_trainable_parameters: str,
+                 jacobi_step_fn: callable = util.jacobi_step):
 
         self.structure: str = structure
         self.device: torch.device = device
@@ -39,7 +40,8 @@ class Solver:
                                   downsampling_policy,
                                   upsampling_policy,
                                   activation,
-                                  initialize_trainable_parameters).to(self.device)
+                                  initialize_trainable_parameters,
+                                  jacobi_step_fn).to(self.device)
         else:
             raise NotImplementedError
 

@@ -7,7 +7,6 @@ import torch.nn.functional as F
 
 __use_cpu: bool = False
 
-
 def get_device(use_cpu: bool = __use_cpu) -> torch.device:
     return torch.device('cuda') if (not use_cpu and torch.cuda.is_available()) else torch.device('cpu')
 
@@ -29,7 +28,6 @@ Masked Jacobi update: Step matrix P = -4I
            = util.jacobi_step(x)
 """
 
-
 jacobi_kernel = torch.tensor([[0, 1, 0],
                               [1, 0, 1],
                               [0, 1, 0]], dtype=torch.float32
@@ -45,6 +43,20 @@ restriction_kernel = torch.tensor([[0, 1, 0],
                                    [1, 4, 1],
                                    [0, 1, 0]], dtype=torch.float32
                                   ).view(1, 1, 3, 3).to(__device) / 8.0
+
+# P = 20I, A is  the biharmonic kernel. Below is I - P^-1 A
+# biharmonic_jacobi_kernel = torch.tensor([   [ 1.,    0.,   -0.05,  0.,    0.  ],
+#                                             [ 0.,    0.9,   0.4,  -0.1,   0.  ],
+#                                             [-0.05,  0.4,   0.,    0.4,  -0.05],
+#                                             [ 0.,   -0.1,   0.4,   0.9,   0.  ],
+#                                             [ 0.,    0.,   -0.05,  0.,    1.  ]], dtype = torch.float32).view(1, 1, 5, 5).to(__device)
+biharmonic_jacobi_kernel = torch.tensor([
+    [ [ [0, 0, 1, 0, 0],
+        [0, 2, -8, 2, 0],
+        [1, -8,  0, -8, 1],
+        [0, 2, -8, 2, 0],
+        [0, 0, 1, 0, 0] ] ]
+], dtype=torch.float32).to(__device) / -20.0
 
 
 def initial_guess(bc_value: torch.Tensor, bc_mask: torch.Tensor, initialization: str) -> torch.Tensor:
@@ -72,7 +84,16 @@ def jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: torch.Tensor, 
 
     return (1 - bc_mask) * y + bc_value
 
+def biharmonic_jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: torch.Tensor, f: typing.Optional[torch.Tensor]):
+    """
+    One iteration step of masked biharmonic iterative solver.
+    """
+    y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
 
+    if f is not None:
+        y = y + 0.05 * f
+
+    return (1 - bc_mask) * y + bc_value
 def downsample2x(x: torch.Tensor) -> torch.Tensor:
     """
     Bilinear 2x-downsampling of an image of size 2^N + 1 is essentially direct injection.

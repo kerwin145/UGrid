@@ -209,19 +209,16 @@ def draw_poisson_region(img: np.ndarray,
     cv2.circle(img, c, r, f2, cv2.FILLED)
     cv2.circle(img, c, r1, f, cv2.FILLED)
 
-def get_square_mask_region_test() -> np.ndarray:
+# noinspection DuplicatedCode
+def square_region_test(laplacian: float, device: torch.device) \
+        -> typing.Tuple[torch.Tensor, torch.Tensor, typing.Optional[torch.Tensor]]:
+
     bc_mask: np.ndarray = np.zeros((257, 257), dtype=np.float32)
     bc_mask[:, :30] = 1
     bc_mask[:, 227:] = 1
     bc_mask[:30, :] = 1
     bc_mask[227:, :] = 1
-    return bc_mask
-
-# noinspection DuplicatedCode
-def square_region_test(laplacian: float, device: torch.device) \
-        -> typing.Tuple[torch.Tensor, torch.Tensor, typing.Optional[torch.Tensor]]:
-
-    bc_mask = get_square_mask_region_test()
+    
     bc_value: np.ndarray = np.ones_like(bc_mask)
     bc_value *= bc_mask
 
@@ -236,12 +233,17 @@ def square_region_test(laplacian: float, device: torch.device) \
 
     return bc_value, bc_mask, f
 
-def square_region_with_source(source: np.ndarray, laplacian: np.ndarray, device: torch.device) \
+def masked_region_with_source(source: np.ndarray, derivative: np.ndarray, device: torch.device) \
         -> typing.Tuple[torch.Tensor, torch.Tensor, typing.Optional[torch.Tensor]]:
     
-    bc_mask: np.ndarray = get_square_mask_region_test() 
+    bc_mask: np.ndarray = np.zeros((257, 257), dtype=np.float32)
+    bc_mask[0, :100] = 1      # top edge
+    bc_mask[99, :100] = 1     # bottom edge
+    bc_mask[:100, 0] = 1      # left edge
+    bc_mask[:100, 99] = 1     # right edge
+    
     bc_value = source * bc_mask
-    f: np.ndarray = laplacian * (1 - bc_mask)
+    f: np.ndarray = derivative * (1 - bc_mask)
 
     bc_value: torch.Tensor = torch.from_numpy(bc_value).unsqueeze(0).unsqueeze(0).to(device)
     bc_mask: torch.Tensor = torch.from_numpy(bc_mask).unsqueeze(0).unsqueeze(0).to(device)
