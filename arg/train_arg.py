@@ -125,6 +125,11 @@ class TrainArg(BaseArg):
         self.parser.add_argument('--batch_size',
                                  type=int,
                                  required=True)
+        
+        self.parser.add_argument('--use_data',
+                                 type=float,
+                                 default=1.0,
+                                 required=False)
 
         # checkpoint
         self.parser.add_argument('--checkpoint_root',

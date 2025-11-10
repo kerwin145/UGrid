@@ -7,14 +7,13 @@ import torch.utils.data.dataloader
 from data import SynDat
 import util
 
-
 class Trainer:
     def __init__(self,
                  experienment_name: str, experienment_checkpoint_path: str, device: torch.device,
                  model, logger,
                  optimizer: str, scheduler: str, initial_lr: float, lambda_1: float, lambda_2: float,
                  start_epoch: int, max_epoch: int, save_every: int, evaluate_every: int,
-                 dataset_root: str, num_workers: int, batch_size: int,):
+                 dataset_root: str, num_workers: int, batch_size: int, use_data: float):
         self.experienment_name: str = experienment_name
         self.experienment_checkpoint_path: str = experienment_checkpoint_path
 
@@ -52,7 +51,7 @@ class Trainer:
             raise NotImplementedError
 
         train_dataset_path: str = os.path.join(dataset_root, 'train')
-        self.train_dataset = SynDat(train_dataset_path)
+        self.train_dataset = SynDat(train_dataset_path, use_data)
         self.train_loader = torch.utils.data.DataLoader(self.train_dataset,
                                                         num_workers=self.num_workers,
                                                         batch_size=batch_size,

@@ -45,19 +45,22 @@ restriction_kernel = torch.tensor([[0, 1, 0],
                                   ).view(1, 1, 3, 3).to(__device) / 8.0
 
 # P = 20I, A is  the biharmonic kernel. Below is I - P^-1 A
-# biharmonic_jacobi_kernel = torch.tensor([   [ 1.,    0.,   -0.05,  0.,    0.  ],
-#                                             [ 0.,    0.9,   0.4,  -0.1,   0.  ],
-#                                             [-0.05,  0.4,   0.,    0.4,  -0.05],
-#                                             [ 0.,   -0.1,   0.4,   0.9,   0.  ],
-#                                             [ 0.,    0.,   -0.05,  0.,    1.  ]], dtype = torch.float32).view(1, 1, 5, 5).to(__device)
-biharmonic_jacobi_kernel = torch.tensor([
-    [ [ [0, 0, 1, 0, 0],
-        [0, 2, -8, 2, 0],
-        [1, -8,  0, -8, 1],
-        [0, 2, -8, 2, 0],
-        [0, 0, 1, 0, 0] ] ]
-], dtype=torch.float32).to(__device) / -20.0
-
+biharmonic_jacobi_kernel = torch.tensor([   [ 0,    0.,   -0.05,  0.,    0.  ],
+                                            [ 0.,    0.9,   0.4,  -0.1,   0.  ],
+                                            [-0.05,  0.4,   0.,    0.4,  -0.05],
+                                            [ 0.,   -0.1,   0.4,   0.9,   0.  ],
+                                            [ 0.,    0.,   -0.05,  0.,    0  ]], dtype = torch.float32).view(1, 1, 5, 5).to(__device)
+# biharmonic_A = torch.tensor([
+#     [0,  0,  1,  0,  0],
+#     [0,  2, -8,  2,  0],
+#     [1, -8, 20, -8,  1],
+#     [0,  2, -8,  2,  0],
+#     [0,  0,  1,  0,  0],
+# ], dtype=torch.float32, device=__device)
+# P_inv = 1.0 / biharmonic_A[2,2]   # = 1/20
+# J = torch.eye(5, device=__device) - P_inv * biharmonic_A
+# print(J)
+# biharmonic_jacobi_kernel = J.view(1,1,5,5)
 
 def initial_guess(bc_value: torch.Tensor, bc_mask: torch.Tensor, initialization: str) -> torch.Tensor:
     """
@@ -94,6 +97,7 @@ def biharmonic_jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: tor
         y = y + 0.05 * f
 
     return (1 - bc_mask) * y + bc_value
+
 def downsample2x(x: torch.Tensor) -> torch.Tensor:
     """
     Bilinear 2x-downsampling of an image of size 2^N + 1 is essentially direct injection.
