@@ -93,11 +93,17 @@ def biharmonic_jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: tor
     """
     One iteration step of masked biharmonic iterative solver.
     """
-    y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
+    # y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
 
+    # if f is not None:
+    #     y = y + 0.05 * f
+
+    # return (1 - bc_mask) * y + bc_value\
+    omega = 0.2  # try smaller if still unstable
+    y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
     if f is not None:
         y = y + 0.05 * f
-
+    y = omega * y + (1 - omega) * x
     return (1 - bc_mask) * y + bc_value
 
 def downsample2x(x: torch.Tensor) -> torch.Tensor:
