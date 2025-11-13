@@ -45,11 +45,13 @@ restriction_kernel = torch.tensor([[0, 1, 0],
                                   ).view(1, 1, 3, 3).to(__device) / 8.0
 
 # P = 20I, A is  the biharmonic kernel. Below is I - P^-1 A
-biharmonic_jacobi_kernel = torch.tensor([   [ 0,    0.,   -0.05,  0.,    0.  ],
-                                            [ 0.,    0.9,   0.4,  -0.1,   0.  ],
-                                            [-0.05,  0.4,   0.,    0.4,  -0.05],
-                                            [ 0.,   -0.1,   0.4,   0.9,   0.  ],
-                                            [ 0.,    0.,   -0.05,  0.,    0  ]], dtype = torch.float32).view(1, 1, 5, 5).to(__device)
+biharmonic_jacobi_kernel = torch.tensor([
+    [0,  0,  1,  0,  0],
+    [0,  2, -8,  2,  0],
+    [1, -8, 0, -8,  1],
+    [0,  2, -8,  2,  0],
+    [0,  0,  1,  0,  0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) / -20
+
 # biharmonic_A = torch.tensor([
 #     [0,  0,  1,  0,  0],
 #     [0,  2, -8,  2,  0],
@@ -138,7 +140,8 @@ def norm(x: torch.Tensor) -> torch.Tensor:
 def absolute_residue(x: torch.Tensor,
                      bc_mask: torch.Tensor,
                      f: typing.Optional[torch.Tensor],
-                     reduction: str = 'norm') -> torch.Tensor:
+                     reduction: str = 'norm',
+                     biharmonic = False) -> torch.Tensor:
     """
     For a linear system Ax = f,
     the absolute residue is r = f - Ax,
@@ -146,6 +149,7 @@ def absolute_residue(x: torch.Tensor,
     """
     # eps of size (batch_size, channel (1), image_size, image_size)
     eps = F.conv2d(x, laplace_kernel, padding=1)
+    eps = F.conv2d(eps, laplace_kernel, padding=1)
 
     if f is not None:
         eps = eps - f
