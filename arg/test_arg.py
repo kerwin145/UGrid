@@ -31,11 +31,10 @@ class TestArg(BaseArg):
                                  help='epoch of experiment to load, -1 means the latest')
         
         # for biharmonic
-        self.parser.add_argument("--jacobi_step_fn",
-                                type=str,
-                                default="jacobi",
-                                choices=["jacobi", "biharmonic"],
-                                help="Jacobi step function to use")
+        self.parser.add_argument(
+            "--biharmonic_problem",
+            action="store_true",
+            help="Enable solving the biharmonic problem")
         
         # for color test cases
         self.parser.add_argument("--color_testcase_path",                               type=str,

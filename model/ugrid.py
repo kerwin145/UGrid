@@ -19,7 +19,7 @@ class UGrid(torch.nn.Module):
                  upsampling_policy,
                  activation: str,
                  initialize_trainable_parameters: str,
-                 jacobi_step_fn: Callable = util.jacobi_step):
+                 biharmonic_problem: bool):
         super().__init__()
 
         self.num_layers: int = num_layers
@@ -30,8 +30,8 @@ class UGrid(torch.nn.Module):
         self.upsampling_policy: str = upsampling_policy
         self.activation: str = activation
         self.initialize_trainable_parameters: str = initialize_trainable_parameters
-
-        self.jacobi_step_fn = jacobi_step_fn
+        
+        self.biharmonic_problem = biharmonic_problem
 
         # Multigrid layer (UNet skip-connection blocks)
         self.mg = UNetSkipConnectionBlock(self.num_pre_smoothing,
@@ -155,11 +155,15 @@ class UGrid(torch.nn.Module):
         # dic[f'1-x-before-presmooth'] = y.detach().squeeze().cpu().numpy()
 
         for _ in range(self.num_pre_smoothing):
-            y = self.jacobi_step_fn(y, bc_value, bc_mask, f)
+            if self.biharmonic_problem:
+                y = util.jacobi_step(y, bc_value, bc_mask, f)
+            else:
+                y = util.biharmonic_jacobi_step(y, bc_value, bc_mask, f)
 
         # dic[f'2-x-after-presmooth'] = y.detach().squeeze().cpu().numpy()
 
-        r = util.absolute_residue(y, bc_mask, f, reduction='none').view_as(y)
+        # r = util.absolute_residue(y, bc_mask, f, reduction='none', biharmonic=self.biharmonic_problem).view_as(y)
+        r = util.relative_residue(y, bc_mask, f, reduction='none', biharmonic=self.biharmonic_problem).view_as(y)
 
         # residue_np: np.ndarray = r.detach().squeeze().cpu().numpy()
         # dic[f'3-residue'] = r.detach().squeeze().cpu().numpy()
@@ -179,8 +183,10 @@ class UGrid(torch.nn.Module):
         # dic[f'5-x+delta'] = y.detach().squeeze().cpu().numpy()
 
         for _ in range(self.num_post_smoothing):
-            y = self.jacobi_step_fn(y, bc_value, bc_mask, f)
-
+            if self.biharmonic_problem:
+                y = util.jacobi_step(y, bc_value, bc_mask, f)
+            else:
+                y = util.biharmonic_jacobi_step(y, bc_value, bc_mask, f)
         # dic[f'6-x-after-postsmooth'] = y.detach().squeeze().cpu().numpy()
 
         # util.plt_dump(dic, dump_dir=f'var/out/{timestamp}', colorbar=False)

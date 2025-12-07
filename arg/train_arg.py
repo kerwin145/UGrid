@@ -50,11 +50,10 @@ class TrainArg(BaseArg):
                                  required=True,
                                  help='number of post-smoothing iterations testcase multigrid')
 
-        self.parser.add_argument("--jacobi_step_fn",
-                                type=str,
-                                default="jacobi",
-                                choices=["jacobi", "biharmonic"],
-                                help="Jacobi step function to use")
+        self.parser.add_argument(
+            "--biharmonic_problem",
+            action="store_true",
+            help="Enable solving the biharmonic problem")
 
         self.parser.add_argument('--activation',
                                  type=str,

@@ -42,20 +42,21 @@ restriction_kernel = torch.tensor([[0, 1, 0],
                                    [0, 1, 0]], dtype=torch.float32
                                   ).view(1, 1, 3, 3).to(__device) / 8.0
 
-# P = 20I, A is  the biharmonic kernel. Below is I - P^-1 A
+# P = 20I, A is  the biharmonic kernel.
+# Jacobi update: u_{k+1} = (1/20) * ( u_k * kernel + f )
 biharmonic_jacobi_kernel = torch.tensor([
     [0,  0,  1,  0,  0],
     [0,  2, -8,  2,  0],
     [1, -8,  0, -8,  1],
     [0,  2, -8,  2,  0],
-    [0,  0,  1,  0,  0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) / -20
+    [0,  0,  1,  0,  0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) / 20
 
-poisson_kernel_5x5 = torch.tensor([
-    [0,   0,  -1,  0,  0],
-    [0,   0,  16,  0,  0],
-    [-1, 16,  0,  16,  -1],
-    [0,   0,  16,  0,  0],
-    [0,   0,  -1,  0,  0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) / 60
+biharmonic_kernel = torch.tensor([
+    [0,  0,  1,  0,  0],
+    [0,  2, -8,  2,  0],
+    [1, -8,  20, -8,  1],
+    [0,  2, -8,  2,  0],
+    [0,  0,  1,  0,  0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) 
 
 def initial_guess(bc_value: torch.Tensor, bc_mask: torch.Tensor, initialization: str) -> torch.Tensor:
     """
@@ -87,22 +88,15 @@ def biharmonic_jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: tor
     One iteration step of masked biharmonic iterative solver.
     """
     
-    omega = 0.2  # weighting to improve stability?
+    # omega = 0.2  # weighting to improve stability?
     y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
+
     if f is not None:
         y = y + 0.05 * f
-    y = omega * y + (1 - omega) * x
+    # y = omega * y + (1 - omega) * x
+
     return (1 - bc_mask) * y + bc_value
 
-    # y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
-    # y = F.conv2d(x, poisson_kernel_5x5, padding=2)
-    #SUFEI IS HERE SUFEI SAY HI
-
-    # if f is not None:
-    #     y = y + 1/60 * f
-    #     # y = y + 0.05 * f
-
-    # return (1 - bc_mask) * y + bc_value
 
 def downsample2x(x: torch.Tensor) -> torch.Tensor:
     """
@@ -145,15 +139,17 @@ def absolute_residue(x: torch.Tensor,
                      bc_mask: torch.Tensor,
                      f: typing.Optional[torch.Tensor],
                      reduction: str = 'norm',
-                     biharmonic = False) -> torch.Tensor:
+                     biharmonic: bool = False) -> torch.Tensor:
     """
     For a linear system Ax = f,
     the absolute residue is r = f - Ax,
     the absolute residual (norm) error eps = ||f - Ax||.
     """
     # eps of size (batch_size, channel (1), image_size, image_size)
-    eps = F.conv2d(x, laplace_kernel, padding=1)
-    # eps = F.conv2d(eps, laplace_kernel, padding=1)
+    if not biharmonic:
+        eps = F.conv2d(x, laplace_kernel, padding=1)
+    else:
+        eps = F.conv2d(x, biharmonic_kernel, padding=1)
 
     if f is not None:
         eps = eps - f
@@ -178,12 +174,12 @@ def absolute_residue(x: torch.Tensor,
 def relative_residue(x: torch.Tensor,
                      bc_value: torch.Tensor,
                      bc_mask: torch.Tensor,
-                     f: typing.Optional[torch.Tensor]) -> typing.Tuple[torch.Tensor, torch.Tensor]:
+                     f: typing.Optional[torch.Tensor], biharmonic=False) -> typing.Tuple[torch.Tensor, torch.Tensor]:
     """
     For a linear system Ax = f, the relative residual error eps = ||f - Ax|| / ||f||.
     :return: abs_residual_error, relative_residual_error
     """
-    numerator: torch.Tensor = absolute_residue(x, bc_mask, f, reduction='norm')  # norm of size (batch_size,)
+    numerator: torch.Tensor = absolute_residue(x, bc_mask, f, reduction='norm', biharmonic=biharmonic)  # norm of size (batch_size,)
 
     denominator: torch.Tensor = bc_value                                         # (batch_size, image_size, image_size)
 

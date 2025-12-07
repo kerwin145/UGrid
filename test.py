@@ -283,7 +283,7 @@ def main() -> None:
                    opt.num_iterations, 1e-4, opt.initialize_x0,
                    opt.num_mg_layers, opt.num_mg_pre_smoothing, opt.num_mg_post_smoothing,
                    opt.activation, 'default', 
-                   jacobi_step_fn=util.biharmonic_jacobi_step if opt.jacobi_step_fn == "biharmonic" else util.jacobi_step)
+                   opt.biharmonic_problem)
     loaded_checkpoint = model.load(experiment_checkpoint_path, opt.load_epoch)
     model.eval()
     logger.info(f'[Test] Checkpoint loaded from {loaded_checkpoint}\n')
