@@ -32,6 +32,7 @@ class Solver:
         self.initial_guess = lambda bc_value, bc_mask: util.initial_guess(bc_value, bc_mask, 'random')
 
         self.is_train: bool = True
+        self.biharmonic_problem: bool = biharmonic_problem
 
         if self.structure == 'unet':
             self.iterator = UGrid(num_mg_layers,
@@ -82,7 +83,7 @@ class Solver:
             if not self.is_train:
                 with torch.no_grad():
                     if iteration % 4 == 0 and \
-                            torch.all(util.absolute_residue(x, bc_mask, f, reduction='norm') <= abs_tol):
+                            torch.all(util.absolute_residue(x, bc_mask, f, reduction='norm', biharmonic=self.biharmonic_problem) <= abs_tol):
                         break
 
         # noinspection PyUnboundLocalVariable

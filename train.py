@@ -64,7 +64,7 @@ def main() -> None:
                             solver, logger,
                             opt.optimizer, opt.scheduler, opt.initial_lr, opt.lambda_1, opt.lambda_2,
                             opt.start_epoch, opt.max_epoch, opt.save_every, opt.evaluate_every,
-                            opt.dataset_root, opt.num_workers, opt.batch_size, opt.use_data)
+                            opt.dataset_root, opt.num_workers, opt.batch_size, opt.use_data, opt.biharmonic_problem)
     trainer.train()
 
 

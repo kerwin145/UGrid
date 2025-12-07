@@ -39,7 +39,8 @@ class UGrid(torch.nn.Module):
                                           self.downsampling_policy,
                                           self.upsampling_policy,
                                           self.initialize_trainable_parameters,
-                                          None)
+                                          None,
+                                          self.biharmonic_problem)
 
         for _ in range(self.num_layers - 1):
             self.mg = UNetSkipConnectionBlock(self.num_pre_smoothing,
@@ -47,7 +48,8 @@ class UGrid(torch.nn.Module):
                                               self.downsampling_policy,
                                               self.upsampling_policy,
                                               self.initialize_trainable_parameters,
-                                              self.mg)
+                                              self.mg,
+                                              self.biharmonic_problem)
 
         # Activation layer
         if 'none' in self.activation:
@@ -55,7 +57,7 @@ class UGrid(torch.nn.Module):
         elif 'clamp' in self.activation:
             _, low, high = self.activation
             self.activate = lambda x: x.clamp(float(low), float(high))
-        elif 'leaky_relu' in self.activaion:
+        elif 'leaky_relu' in self.activation:
             _, negative_slope = self.activation
             self.activate = lambda x: F.leaky_relu(x, float(negative_slope))
         else:
@@ -156,14 +158,14 @@ class UGrid(torch.nn.Module):
 
         for _ in range(self.num_pre_smoothing):
             if self.biharmonic_problem:
-                y = util.jacobi_step(y, bc_value, bc_mask, f)
-            else:
                 y = util.biharmonic_jacobi_step(y, bc_value, bc_mask, f)
+            else:
+                y = util.jacobi_step(y, bc_value, bc_mask, f)
 
         # dic[f'2-x-after-presmooth'] = y.detach().squeeze().cpu().numpy()
 
-        # r = util.absolute_residue(y, bc_mask, f, reduction='none', biharmonic=self.biharmonic_problem).view_as(y)
-        r = util.relative_residue(y, bc_mask, f, reduction='none', biharmonic=self.biharmonic_problem).view_as(y)
+        # needs to be absolute (we are not at calculating the loss yet)
+        r = util.absolute_residue(y, bc_mask, f, reduction='none', biharmonic=self.biharmonic_problem).view_as(y)
 
         # residue_np: np.ndarray = r.detach().squeeze().cpu().numpy()
         # dic[f'3-residue'] = r.detach().squeeze().cpu().numpy()
@@ -184,9 +186,9 @@ class UGrid(torch.nn.Module):
 
         for _ in range(self.num_post_smoothing):
             if self.biharmonic_problem:
-                y = util.jacobi_step(y, bc_value, bc_mask, f)
-            else:
                 y = util.biharmonic_jacobi_step(y, bc_value, bc_mask, f)
+            else:
+                y = util.jacobi_step(y, bc_value, bc_mask, f)
         # dic[f'6-x-after-postsmooth'] = y.detach().squeeze().cpu().numpy()
 
         # util.plt_dump(dic, dump_dir=f'var/out/{timestamp}', colorbar=False)
@@ -211,7 +213,8 @@ class UNetSkipConnectionBlock(torch.nn.Module):
                  downsampling_policy: str,
                  upsampling_policy: str,
                  initialize_trainable_parameters: str,
-                 submodule: typing.Optional[torch.nn.Module]):
+                 submodule: typing.Optional[torch.nn.Module],
+                 biharmonic_problem):
         super().__init__()
 
         self.num_pre_smoothing: int = num_pre_smoothing
@@ -222,26 +225,33 @@ class UNetSkipConnectionBlock(torch.nn.Module):
 
         self.submodule: typing.Optional[torch.nn.Module] = submodule
 
+        if biharmonic_problem:
+            kernel_size = 5
+            padding = 2
+        else:
+            kernel_size = 3
+            padding = 1
+
         # Convolution (linear) layers
         self.pre_smoothers = torch.nn.ModuleList(
-                [torch.nn.Conv2d(1, 1, 3, stride=1, padding=1, bias=False) for _ in range(self.num_pre_smoothing)])
+                [torch.nn.Conv2d(1, 1, kernel_size, stride=1, padding=padding, bias=False) for _ in range(self.num_pre_smoothing)])
 
         if self.downsampling_policy == 'lerp':
             self.downsampler = util.downsample2x
         elif self.downsampling_policy == 'conv':
-            self.downsampler = torch.nn.Conv2d(1, 1, 3, stride=2, padding=1, bias=False)
+            self.downsampler = torch.nn.Conv2d(1, 1, kernel_size, stride=2, padding=padding, bias=False)
         else:
             raise NotImplementedError
 
         if self.upsampling_policy == 'lerp':
             self.upsampler = util.upsample2x
         elif self.upsampling_policy == 'conv':
-            self.upsampler = torch.nn.ConvTranspose2d(1, 1, 3, stride=2, padding=1, bias=False)
+            self.upsampler = torch.nn.ConvTranspose2d(1, 1, kernel_size, stride=2, padding=padding, bias=False)
         else:
             raise NotImplementedError
 
         self.post_smoothers = torch.nn.ModuleList(
-                [torch.nn.Conv2d(1, 1, 3, stride=1, padding=1, bias=False) for _ in range(self.num_post_smoothing)])
+                [torch.nn.Conv2d(1, 1, kernel_size, stride=1, padding=padding, bias=False) for _ in range(self.num_post_smoothing)])
 
         # Initialization of trainable parameters
         if self.initialize_trainable_parameters == 'default':

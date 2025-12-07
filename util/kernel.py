@@ -83,20 +83,36 @@ def jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: torch.Tensor, 
 
     return (1 - bc_mask) * y + bc_value
 
+# def biharmonic_jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: torch.Tensor, f: typing.Optional[torch.Tensor]):
+#     """
+#     One iteration step of masked biharmonic iterative solver.
+#     """
+    
+#     omega = 0.2  # weighting to improve stability
+#     y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
+
+#     if f is not None:
+#         y = y + 0.05 * f
+#     y = omega * y + (1 - omega) * x
+
+#     return (1 - bc_mask) * y + bc_value
 def biharmonic_jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: torch.Tensor, f: typing.Optional[torch.Tensor]):
     """
     One iteration step of masked biharmonic iterative solver.
     """
     
-    # omega = 0.2  # weighting to improve stability?
+    omega = 0.2  # weighting to improve stability
+    
     y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
 
     if f is not None:
-        y = y + 0.05 * f
-    # y = omega * y + (1 - omega) * x
+        y = 0.05 * f - y
+    else:
+        # If f is zero: -y
+        y = -y
 
+    y = omega * y + (1 - omega) * x
     return (1 - bc_mask) * y + bc_value
-
 
 def downsample2x(x: torch.Tensor) -> torch.Tensor:
     """
@@ -146,10 +162,10 @@ def absolute_residue(x: torch.Tensor,
     the absolute residual (norm) error eps = ||f - Ax||.
     """
     # eps of size (batch_size, channel (1), image_size, image_size)
-    if not biharmonic:
-        eps = F.conv2d(x, laplace_kernel, padding=1)
+    if biharmonic:
+        eps = F.conv2d(x, biharmonic_kernel, padding=2)
     else:
-        eps = F.conv2d(x, biharmonic_kernel, padding=1)
+        eps = F.conv2d(x, laplace_kernel, padding=1)
 
     if f is not None:
         eps = eps - f
