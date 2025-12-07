@@ -29,7 +29,18 @@ class TestArg(BaseArg):
         self.parser.add_argument('--load_epoch',
                                  type=int,
                                  help='epoch of experiment to load, -1 means the latest')
-
+        
+        # for biharmonic
+        self.parser.add_argument("--jacobi_step_fn",
+                                type=str,
+                                default="jacobi",
+                                choices=["jacobi", "biharmonic"],
+                                help="Jacobi step function to use")
+        
+        # for color test cases
+        self.parser.add_argument("--color_testcase_path",                               type=str,
+                                help="Used to activate the colored testcase pipeline, providing path to the test case")
+        
         # reproducibility
         self.parser.add_argument('--seed',
                                  type=int,

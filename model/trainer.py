@@ -85,13 +85,13 @@ class Trainer:
                 tup: typing.Tuple[torch.Tensor, int] = self.model(x, bc_value, bc_mask, f)
                 y, iterations_used = tup
 
-                residue: torch.Tensor = util.absolute_residue(y, bc_mask, f, reduction='none')
+                # residue: torch.Tensor = util.absolute_residue(y, bc_mask, f, reduction='none')
 
-                # abs_residual_norm, rel_residual_norm = util.relative_residue(y, bc_value, bc_mask, f)
+                abs_residual_norm, rel_residual_norm = util.relative_residue(y, bc_value, bc_mask, f)
                 # abs_residual_norm = abs_residual_norm.mean()
                 # rel_residual_norm = rel_residual_norm.mean()
 
-                loss_x: torch.Tensor = util.norm(residue).mean()
+                loss_x: torch.Tensor = util.norm(rel_residual_norm).mean()
 
                 iterations_used = torch.tensor([iterations_used], dtype=torch.float32).to(self.device)
 

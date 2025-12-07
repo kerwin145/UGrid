@@ -10,9 +10,7 @@ __use_cpu: bool = False
 def get_device(use_cpu: bool = __use_cpu) -> torch.device:
     return torch.device('cuda') if (not use_cpu and torch.cuda.is_available()) else torch.device('cpu')
 
-
 __device: torch.device = get_device()
-
 
 """
 Masked discrete Poisson equation (with arbitray Dirchilet boundary condition): 
@@ -48,21 +46,16 @@ restriction_kernel = torch.tensor([[0, 1, 0],
 biharmonic_jacobi_kernel = torch.tensor([
     [0,  0,  1,  0,  0],
     [0,  2, -8,  2,  0],
-    [1, -8, 0, -8,  1],
+    [1, -8,  0, -8,  1],
     [0,  2, -8,  2,  0],
     [0,  0,  1,  0,  0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) / -20
 
-# biharmonic_A = torch.tensor([
-#     [0,  0,  1,  0,  0],
-#     [0,  2, -8,  2,  0],
-#     [1, -8, 20, -8,  1],
-#     [0,  2, -8,  2,  0],
-#     [0,  0,  1,  0,  0],
-# ], dtype=torch.float32, device=__device)
-# P_inv = 1.0 / biharmonic_A[2,2]   # = 1/20
-# J = torch.eye(5, device=__device) - P_inv * biharmonic_A
-# print(J)
-# biharmonic_jacobi_kernel = J.view(1,1,5,5)
+poisson_kernel_5x5 = torch.tensor([
+    [0,   0,  -1,  0,  0],
+    [0,   0,  16,  0,  0],
+    [-1, 16,  0,  16,  -1],
+    [0,   0,  16,  0,  0],
+    [0,   0,  -1,  0,  0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) / 60
 
 def initial_guess(bc_value: torch.Tensor, bc_mask: torch.Tensor, initialization: str) -> torch.Tensor:
     """
@@ -93,18 +86,23 @@ def biharmonic_jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: tor
     """
     One iteration step of masked biharmonic iterative solver.
     """
-    # y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
-
-    # if f is not None:
-    #     y = y + 0.05 * f
-
-    # return (1 - bc_mask) * y + bc_value\
-    omega = 0.2  # try smaller if still unstable
+    
+    omega = 0.2  # weighting to improve stability?
     y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
     if f is not None:
         y = y + 0.05 * f
     y = omega * y + (1 - omega) * x
     return (1 - bc_mask) * y + bc_value
+
+    # y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
+    # y = F.conv2d(x, poisson_kernel_5x5, padding=2)
+    #SUFEI IS HERE SUFEI SAY HI
+
+    # if f is not None:
+    #     y = y + 1/60 * f
+    #     # y = y + 0.05 * f
+
+    # return (1 - bc_mask) * y + bc_value
 
 def downsample2x(x: torch.Tensor) -> torch.Tensor:
     """
@@ -155,7 +153,7 @@ def absolute_residue(x: torch.Tensor,
     """
     # eps of size (batch_size, channel (1), image_size, image_size)
     eps = F.conv2d(x, laplace_kernel, padding=1)
-    eps = F.conv2d(eps, laplace_kernel, padding=1)
+    # eps = F.conv2d(eps, laplace_kernel, padding=1)
 
     if f is not None:
         eps = eps - f
