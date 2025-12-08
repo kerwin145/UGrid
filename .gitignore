@@ -42,7 +42,7 @@ lib/
 lib64/
 parts/
 sdist/
-var/
+# var/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -159,4 +159,4 @@ fabric.properties
 
 # Vscode 
 .vscode
-checkpoint
+# checkpoint

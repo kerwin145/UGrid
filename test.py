@@ -75,10 +75,11 @@ def test_on_single_data_color(
     bc_mask_np = ((R > 0) | (G > 0) | (B > 0)).astype(np.float32)
 
     def make_tensors(channel_np):
-        bc_value_np = channel_np.astype(np.float32)
+        normalized = channel_np.astype(np.float32) / 255.0
+        bc_value_np = normalized * bc_mask_np
 
-        f_np = channel_np.astype(np.float32)
-        f_np[bc_mask_np == 1] = 0
+        f_np = np.zeros_like(normalized)
+        f_np[bc_mask_np == 0] = 0 # -0.0001
 
         bc_mask = torch.from_numpy(bc_mask_np).unsqueeze(0).unsqueeze(0).to(device)
         bc_value = torch.from_numpy(bc_value_np).unsqueeze(0).unsqueeze(0).to(device)
@@ -109,20 +110,16 @@ def test_on_single_data_color(
 
             return y, iterations_used, abs_residual_norm, rel_residual_norm
 
-    # -------------------------------------------------
-    # Run benchmark iterations
-    # -------------------------------------------------
     for _ in range(benchmark_iteration):
         start = time.perf_counter_ns()
 
-        # --- Solve R,G,B independently ---
+        # solving rgb independently
         R_y, R_iter, R_abs, R_rel = solve_and_measure(R_bc_mask, R_bc_value, R_f)
         G_y, G_iter, G_abs, G_rel = solve_and_measure(G_bc_mask, G_bc_value, G_f)
         B_y, B_iter, B_abs, B_rel = solve_and_measure(B_bc_mask, B_bc_value, B_f)
 
         time_lst.append(time.perf_counter_ns() - start)
 
-        # --- accumulate loss dict ---
         for k, v in [
             ("abs_residual_norm", (R_abs + G_abs + B_abs) / 3.0),
             ("rel_residual_norm", (R_rel + G_rel + B_rel) / 3.0),
@@ -133,30 +130,27 @@ def test_on_single_data_color(
                 test_loss_dict[k] = []
             test_loss_dict[k].append(v)
 
-    # -------------------------------------------------
-    # Prepare outputs for visualization
-    # -------------------------------------------------
     R_y_np = R_y.detach().cpu().squeeze().numpy()
     G_y_np = G_y.detach().cpu().squeeze().numpy()
     B_y_np = B_y.detach().cpu().squeeze().numpy()
 
-    bc_mask_np = R_mask_np  # same for all 3 channels
+    bc_mask_np = R_mask_np  # same across all 3 channels
 
     y_np = np.stack([R_y_np, G_y_np, B_y_np], axis=-1)
-    y_np = np.clip(y_np, 0, 255).astype(np.uint8)
+    y_np = np.clip(y_np*255.0, 0, 255).astype(np.uint8)
 
     avg_time_ms = np.mean(time_lst) / 1e6
     avg_rel = torch.mean(torch.stack(test_loss_dict["rel_residual_norm"])).item()
-
-    log_str = f"ColorPoisson {avg_time_ms:.3f} ms, rel res {avg_rel:.4e}"
+    
+    log_str = f'{img_path} {"biharmonic" if model.biharmonic_problem else ""} {avg_time_ms:.3f} ms, rel res {avg_rel:.4e}'
     logger.info(log_str)
 
     util.plt_subplot(
         dic={
             'mask': bc_mask_np,
-            'f_R': R_f_np,
-            'f_G': G_f_np,
-            'f_B': B_f_np,
+            # 'f_R': R_f_np,
+            # 'f_G': G_f_np,
+            # 'f_B': B_f_np,
             'b_R': R_bc_np,
             'b_G': G_bc_np,
             'b_B': B_bc_np,

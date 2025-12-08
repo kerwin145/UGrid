@@ -1,5 +1,41 @@
 # UGrid: An Efficient-And-Rigorous Neural Multigrid Solver for Linear PDEs
 
+This is a repository forked from [Ugrid](https://github.com/AXIHIXA/UGrid)
+
+Below is the relavant changes I have made and things to note. Afterwards, the rest of the readme is the same as the original Ugrid readme
+
+### arg
+Added param for biharmonic_problem for test and train
+
+### checkpoint
+Contains the trained model. The one I used is ```20251207-111229```
+Notes on hyper parameters are inlcuded in the folder
+
+### ./model/ugrid.py
+Configured functions to take in a biharmonic true/false parameter. Adjusted the forward function calls for Ugrid and Unet classes to fit biharmonic equation solving.
+
+### ./script
+Added training and test scripts for biharmonic, and also colored test scripts for poisson and biharmonic. You can run the testcases by running these scripts!
+
+### ./util
+kernel.py: added biharmonic stencils and biharomnic jacobi iteration function. Also adjusted residual functions to accomodate biharmonic equations.
+prepartion.py: added method to assemble biharmonic matrix to test the pde 
+
+### ./var
+Added a folder for colored test cases (drawn with ms paint)
+Also contains the trained model for poisson at ```./var/checkpoint/22```
+
+### ./visualized_output
+Contains outputs for the runs for poisson, biharmonic, and the RGB versions
+
+### test.py
+Added ```test_on_single_data_color``` function for poisson and biharmonic questions
+
+### Playground.ipynb 
+Includes testing for the biharmonic stencil, and reading in images for the colored test cases and guassian blurring
+
+---
+
 This repository is the official implementation of our ICML'2024 paper
 
 Xi Han, Fei Hou, Hong Qin, 
