@@ -62,17 +62,14 @@ def test_on_single_data_color(
     ) -> None:
 
     import cv2
-    import time
 
     img = cv2.imread(img_path, cv2.IMREAD_COLOR)
-    if img is None:
-        raise ValueError(f"Image not found: {img_path}")
 
     H, W, C = img.shape
     assert C == 3, "Input image must be 3-channel color"
     B, G, R = cv2.split(img)
 
-    # Boundary: non-zero pixel means boundary
+    # Boundary: non-zero pixel means boundary (doing this for simplicity of making test cases)
     bc_mask_np = ((R > 0) | (G > 0) | (B > 0)).astype(np.float32)
 
     def make_tensors(channel_np):
@@ -98,7 +95,6 @@ def test_on_single_data_color(
         benchmark_iteration = 1
 
     def solve_and_measure(bc_mask, bc_value, f):
-        """Run one channel through the model and compute residuals."""
         with torch.no_grad():
             y, iterations_used = model(None, bc_value, bc_mask, f)
 
