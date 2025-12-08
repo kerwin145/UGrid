@@ -34,6 +34,9 @@ Added ```test_on_single_data_color``` function for poisson and biharmonic questi
 ### Playground.ipynb 
 Includes testing for the biharmonic stencil, and reading in images for the colored test cases and guassian blurring
 
+Additional sources used:
+Han, X. (2025). Physics-informed hardware-aware neural numerical solvers for differential equations: Theory, architecture, algorithms, and application (Doctoral dissertation). Stony Brook University.
+
 ---
 
 This repository is the official implementation of our ICML'2024 paper

@@ -53,6 +53,7 @@ def test_on_dataset(model, test_loader, device) -> None:
 
         for k, v in test_loss_dict.items():
             logger.info('[Test] {} = {}'.format(k, torch.mean(torch.tensor(v))))
+
 def test_on_single_data_color(
         img_path: str,
         model: Solver,
