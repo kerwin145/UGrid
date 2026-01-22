@@ -233,10 +233,10 @@ def square_region_test(laplacian: float, device: torch.device) \
 
     return bc_value, bc_mask, f
 
-def masked_region_with_source(source: np.ndarray, derivative: np.ndarray, device: torch.device) \
+def masked_region_with_source(source: np.ndarray, derivative: np.ndarray, device: torch.device, dimension) \
         -> typing.Tuple[torch.Tensor, torch.Tensor, typing.Optional[torch.Tensor]]:
     
-    bc_mask: np.ndarray = np.zeros((257, 257), dtype=np.float32)
+    bc_mask: np.ndarray = np.zeros((dimension, dimension), dtype=np.float32)
     bc_mask[0, :100] = 1      # top edge
     bc_mask[99, :100] = 1     # bottom edge
     bc_mask[:100, 0] = 1      # left edge
