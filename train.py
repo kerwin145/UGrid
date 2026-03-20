@@ -54,17 +54,27 @@ def main() -> None:
         logger.info(f'[Train] Using random seed {seed} for PyTorch\n')
 
     # torch.autograd.set_detect_anomaly(True)  # for debugging only, do NOT use testcase training!
-
-    # training
-    solver = model.Solver(opt.structure, opt.downsampling_policy, opt.upsampling_policy, device,
+    if opt.biharmonic_solver == "stacked_poisson":
+        solver = model.StackedPoissonSolver(opt.structure, opt.downsampling_policy, opt.upsampling_policy, device,
                           opt.num_iterations, opt.relative_tolerance, opt.initialize_x0,
                           opt.num_mg_layers, opt.num_mg_pre_smoothing, opt.num_mg_post_smoothing,
-                          opt.activation, opt.initialize_trainable_parameters, opt.biharmonic_problem)
+                          opt.activation, opt.initialize_trainable_parameters)
+    else:
+        solver = model.Solver(opt.structure, opt.downsampling_policy, opt.upsampling_policy, device,
+                          opt.num_iterations, opt.relative_tolerance, opt.initialize_x0,
+                          opt.num_mg_layers, opt.num_mg_pre_smoothing, opt.num_mg_post_smoothing,
+                          opt.activation, opt.initialize_trainable_parameters, 
+                          # else case means we chose biharmonic_stencil
+                          False if opt.biharmonic_solver is None else True)
+
+    # training
+
     trainer = model.Trainer(experienment_name, experienment_checkpoint_path, device,
                             solver, logger,
                             opt.optimizer, opt.scheduler, opt.initial_lr, opt.lambda_1, opt.lambda_2,
                             opt.start_epoch, opt.max_epoch, opt.save_every, opt.evaluate_every,
-                            opt.dataset_root, opt.num_workers, opt.batch_size, opt.use_data, opt.biharmonic_problem)
+                            opt.dataset_root, opt.num_workers, opt.batch_size, opt.use_data, 
+                            False if opt.biharmonic_solver is None else True)
     trainer.train()
 
 

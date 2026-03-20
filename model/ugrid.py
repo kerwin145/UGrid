@@ -19,7 +19,7 @@ class UGrid(torch.nn.Module):
                  upsampling_policy,
                  activation: str,
                  initialize_trainable_parameters: str,
-                 biharmonic_problem: bool):
+                 biharmonic_smoother: bool):
         super().__init__()
 
         self.num_layers: int = num_layers
@@ -31,7 +31,7 @@ class UGrid(torch.nn.Module):
         self.activation: str = activation
         self.initialize_trainable_parameters: str = initialize_trainable_parameters
         
-        self.biharmonic_problem = biharmonic_problem
+        self.biharmonic_smoother = biharmonic_smoother
 
         # Multigrid layer (UNet skip-connection blocks)
         self.mg = UNetSkipConnectionBlock(self.num_pre_smoothing,
@@ -40,7 +40,7 @@ class UGrid(torch.nn.Module):
                                           self.upsampling_policy,
                                           self.initialize_trainable_parameters,
                                           None,
-                                          self.biharmonic_problem)
+                                          self.biharmonic_smoother)
 
         for _ in range(self.num_layers - 1):
             self.mg = UNetSkipConnectionBlock(self.num_pre_smoothing,
@@ -49,7 +49,7 @@ class UGrid(torch.nn.Module):
                                               self.upsampling_policy,
                                               self.initialize_trainable_parameters,
                                               self.mg,
-                                              self.biharmonic_problem)
+                                              self.biharmonic_smoother)
 
         # Activation layer
         if 'none' in self.activation:
@@ -157,7 +157,7 @@ class UGrid(torch.nn.Module):
         # dic[f'1-x-before-presmooth'] = y.detach().squeeze().cpu().numpy()
 
         for _ in range(self.num_pre_smoothing):
-            if self.biharmonic_problem:
+            if self.biharmonic_smoother:
                 y = util.biharmonic_jacobi_step(y, bc_value, bc_mask, f)
             else:
                 y = util.jacobi_step(y, bc_value, bc_mask, f)
@@ -165,7 +165,7 @@ class UGrid(torch.nn.Module):
         # dic[f'2-x-after-presmooth'] = y.detach().squeeze().cpu().numpy()
 
         # needs to be absolute (we are not at calculating the loss yet)
-        r = util.absolute_residue(y, bc_mask, f, reduction='none', biharmonic=self.biharmonic_problem).view_as(y)
+        r = util.absolute_residue(y, bc_mask, f, reduction='none', biharmonic_problem=self.biharmonic_smoother).view_as(y)
 
         # residue_np: np.ndarray = r.detach().squeeze().cpu().numpy()
         # dic[f'3-residue'] = r.detach().squeeze().cpu().numpy()
@@ -185,7 +185,7 @@ class UGrid(torch.nn.Module):
         # dic[f'5-x+delta'] = y.detach().squeeze().cpu().numpy()
 
         for _ in range(self.num_post_smoothing):
-            if self.biharmonic_problem:
+            if self.biharmonic_smoother:
                 y = util.biharmonic_jacobi_step(y, bc_value, bc_mask, f)
             else:
                 y = util.jacobi_step(y, bc_value, bc_mask, f)
@@ -214,7 +214,7 @@ class UNetSkipConnectionBlock(torch.nn.Module):
                  upsampling_policy: str,
                  initialize_trainable_parameters: str,
                  submodule: typing.Optional[torch.nn.Module],
-                 biharmonic_problem):
+                 biharmonic_smoother):
         super().__init__()
 
         self.num_pre_smoothing: int = num_pre_smoothing
@@ -225,7 +225,7 @@ class UNetSkipConnectionBlock(torch.nn.Module):
 
         self.submodule: typing.Optional[torch.nn.Module] = submodule
 
-        if biharmonic_problem:
+        if biharmonic_smoother:
             kernel_size = 5
             padding = 2
         else:

@@ -58,6 +58,13 @@ biharmonic_kernel = torch.tensor([
     [0,  2, -8,  2,  0],
     [0,  0,  1,  0,  0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) 
 
+poisson_kernel_5 = torch.tensor([
+    [0,  0,  -1,  0,   0],
+    [0,  0,  16,  0,   0],
+    [-1, 16, -60, 16, -1],
+    [0,  0,  16,  0,   0],
+    [0,  0,  -1,  0,   0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) 
+
 def initial_guess(bc_value: torch.Tensor, bc_mask: torch.Tensor, initialization: str) -> torch.Tensor:
     """
     Assemble the initial guess of solution.
@@ -76,6 +83,7 @@ def jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: torch.Tensor, 
     """
     One iteration step of masked Jacobi iterative solver.
     """
+    # y = laplace_jacobi(x)
     y = F.conv2d(x, jacobi_kernel, padding=1)
 
     if f is not None:
@@ -88,7 +96,8 @@ def biharmonic_jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: tor
     One iteration step of masked biharmonic iterative solver.
     """
     omega = 0.2  # weighting to improve stability
-    y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
+    y = biharmonic_jacobi(x)
+    # y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
 
     if f is not None:
         y = 0.05 * f - y
@@ -140,17 +149,19 @@ def absolute_residue(x: torch.Tensor,
                      bc_mask: torch.Tensor,
                      f: typing.Optional[torch.Tensor],
                      reduction: str = 'norm',
-                     biharmonic: bool = False) -> torch.Tensor:
+                     biharmonic_problem: bool = False) -> torch.Tensor:
     """
     For a linear system Ax = f,
     the absolute residue is r = f - Ax,
     the absolute residual (norm) error eps = ||f - Ax||.
     """
     # eps of size (batch_size, channel (1), image_size, image_size)
-    if biharmonic:
-        eps = F.conv2d(x, biharmonic_kernel, padding=2)
+    if biharmonic_problem:
+        # eps = F.conv2d(x, biharmonic_kernel, padding=2)
+        eps = biharmonic(x)
     else:
-        eps = F.conv2d(x, laplace_kernel, padding=1)
+        # eps = F.conv2d(x, laplace_kernel, padding=1)
+        eps = laplacian(x)
 
     if f is not None:
         eps = eps - f
@@ -175,12 +186,12 @@ def absolute_residue(x: torch.Tensor,
 def relative_residue(x: torch.Tensor,
                      bc_value: torch.Tensor,
                      bc_mask: torch.Tensor,
-                     f: typing.Optional[torch.Tensor], biharmonic=False) -> typing.Tuple[torch.Tensor, torch.Tensor]:
+                     f: typing.Optional[torch.Tensor], biharmonic_problem=False) -> typing.Tuple[torch.Tensor, torch.Tensor]:
     """
     For a linear system Ax = f, the relative residual error eps = ||f - Ax|| / ||f||.
     :return: abs_residual_error, relative_residual_error
     """
-    numerator: torch.Tensor = absolute_residue(x, bc_mask, f, reduction='norm', biharmonic=biharmonic)  # norm of size (batch_size,)
+    numerator: torch.Tensor = absolute_residue(x, bc_mask, f, reduction='norm', biharmonic_problem=biharmonic_problem)  # norm of size (batch_size,)
 
     denominator: torch.Tensor = bc_value                                         # (batch_size, image_size, image_size)
 
@@ -190,3 +201,68 @@ def relative_residue(x: torch.Tensor,
     denominator = norm(denominator)
 
     return numerator, numerator / denominator                                    # (batch_size,)
+
+
+"""
+efficiency improvements for im2col
+"""
+def _shift(x: torch.Tensor, dy: int, dx: int) -> torch.Tensor:
+    """
+    Sample x at neighbour offset (dy, dx):
+        output[i, j] = x[i + dy, j + dx]   (zero outside bounds)
+
+    Pad order for F.pad: (left, right, top, bottom).
+
+    To look RIGHT (dx=+1): pad a zero column on the RIGHT, slice from col 1.
+    To look LEFT  (dx=-1): pad a zero column on the LEFT,  slice from col 0.
+    Same logic applies vertically for dy.
+
+        pad_r = max( dx, 0)   pad right  when looking right
+        pad_l = max(-dx, 0)   pad left   when looking left
+        pad_b = max( dy, 0)   pad bottom when looking down
+        pad_t = max(-dy, 0)   pad top    when looking up
+
+    Slice [pad_b : pad_b+h, pad_r : pad_r+w] to recover original size.
+    """
+    h, w = x.shape[-2], x.shape[-1]
+    pad_l = max(-dx, 0);  pad_r = max( dx, 0)
+    pad_t = max(-dy, 0);  pad_b = max( dy, 0)
+    x_pad = F.pad(x, (pad_l, pad_r, pad_t, pad_b))
+    return x_pad[..., pad_b:pad_b+h, pad_r:pad_r+w]
+
+def laplacian(x: torch.Tensor) -> torch.Tensor:
+    """
+    Replaces: F.conv2d(x, laplace_kernel, padding=1)
+    """
+    return (_shift(x,  0,  1)   # right neighbour
+          + _shift(x,  0, -1)   # left neighbour
+          + _shift(x,  1,  0)   # bottom neighbour
+          + _shift(x, -1,  0)   # top neighbour
+          - 4.0 * x)
+
+def laplace_jacobi(x: torch.Tensor) -> torch.Tensor:
+    """
+      Replaces: F.conv2d(x, jacobi_kernel, padding=1)
+             where jacobi_kernel already has /4 baked in.
+    """
+    return 0.25 * (_shift(x,  0,  1)
+                 + _shift(x,  0, -1)
+                 + _shift(x,  1,  0)
+                 + _shift(x, -1,  0))
+
+def biharmonic(x: torch.Tensor) -> torch.Tensor:
+    """
+    Biharmonic operator  ∇⁴x = ∇²(∇²x)  via two Laplacian passes.
+    Replaces: F.conv2d(x, biharmonic_kernel, padding=2)
+    """
+    return laplacian(laplacian(x))
+
+def biharmonic_jacobi(x: torch.Tensor) -> torch.Tensor:
+    """
+
+    Replaces: F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
+
+    Since biharmonic(x) = ∇⁴x = off_diag_part + 20·x, we have:
+        off_diag_part / 20 = (biharmonic(x) - 20·x) / 20
+    """
+    return (biharmonic(x) - 20.0 * x) / 20.0
