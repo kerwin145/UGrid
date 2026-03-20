@@ -7,7 +7,6 @@ import torch
 from .ugrid import UGrid
 import util
 
-
 class Solver:
     def __init__(self,
                  structure: str,
@@ -22,7 +21,8 @@ class Solver:
                  num_mg_post_smoothing: int,
                  activation: str,
                  initialize_trainable_parameters: str,
-                 biharmonic_problem: bool):
+                 biharmonic_problem: bool,
+                 sparse_extension: bool):
 
         self.structure: str = structure
         self.device: torch.device = device
@@ -42,7 +42,7 @@ class Solver:
                                   upsampling_policy,
                                   activation,
                                   initialize_trainable_parameters,
-                                  biharmonic_problem).to(self.device)
+                                  biharmonic_problem, sparse_extension).to(self.device)
         else:
             raise NotImplementedError
 

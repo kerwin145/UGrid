@@ -36,6 +36,11 @@ class TestArg(BaseArg):
             action="store_true",
             help="Enable solving the biharmonic problem")
         
+        # for optimization
+        self.parser.add_argument("--sparse_extension",
+                        action="store_true",
+                        help="Enable sparse convolution + stacked calculations + fused iterations extension")
+
         # for color test cases
         self.parser.add_argument("--color_testcase_path",                               type=str,
                                 help="Used to activate the colored testcase pipeline, providing path to the test case")

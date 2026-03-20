@@ -19,7 +19,8 @@ class UGrid(torch.nn.Module):
                  upsampling_policy,
                  activation: str,
                  initialize_trainable_parameters: str,
-                 biharmonic_problem: bool):
+                 biharmonic_problem: bool,
+                 sparse_extension: bool):
         super().__init__()
 
         self.num_layers: int = num_layers
@@ -32,6 +33,7 @@ class UGrid(torch.nn.Module):
         self.initialize_trainable_parameters: str = initialize_trainable_parameters
         
         self.biharmonic_problem = biharmonic_problem
+        self.sparse_extension = sparse_extension
 
         # Multigrid layer (UNet skip-connection blocks)
         self.mg = UNetSkipConnectionBlock(self.num_pre_smoothing,
@@ -160,7 +162,11 @@ class UGrid(torch.nn.Module):
             if self.biharmonic_problem:
                 y = util.biharmonic_jacobi_step(y, bc_value, bc_mask, f)
             else:
-                y = util.jacobi_step(y, bc_value, bc_mask, f)
+                if self.sparse_extension:
+                    y = util.jacobi.jacobi_step(y, bc_value, bc_mask, f, self.num_pre_smoothing)
+                    break # fused iterations
+                else:
+                    y = util.jacobi_step(y, bc_value, bc_mask, f)
 
         # dic[f'2-x-after-presmooth'] = y.detach().squeeze().cpu().numpy()
 
@@ -188,10 +194,15 @@ class UGrid(torch.nn.Module):
             if self.biharmonic_problem:
                 y = util.biharmonic_jacobi_step(y, bc_value, bc_mask, f)
             else:
-                y = util.jacobi_step(y, bc_value, bc_mask, f)
+                if self.sparse_extension:
+                    y = util.jacobi.jacobi_step(y, bc_value, bc_mask, f, self.num_post_smoothing)
+                    break
+                else:
+                    y = util.jacobi_step(y, bc_value, bc_mask, f)
+
         # dic[f'6-x-after-postsmooth'] = y.detach().squeeze().cpu().numpy()
 
-        # util.plt_dump(dic, dump_dir=f'var/out/{timestamp}', colorbar=False)
+        # util.plt_dump(dic, dump_dir=f'var/out/{timestamp}', colorbar=False2)
         # util.plt_subplot(dic, suptitle=f'{timestamp}', )
 
         if self.activate is not None:

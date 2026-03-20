@@ -50,10 +50,9 @@ class TrainArg(BaseArg):
                                  required=True,
                                  help='number of post-smoothing iterations testcase multigrid')
 
-        self.parser.add_argument(
-            "--biharmonic_problem",
-            action="store_true",
-            help="Enable solving the biharmonic problem")
+        self.parser.add_argument("--biharmonic_problem",
+                                action="store_true",
+                                help="Enable solving the biharmonic problem")
 
         self.parser.add_argument('--activation',
                                  type=str,
@@ -80,6 +79,7 @@ class TrainArg(BaseArg):
                                  nargs='+',
                                  required=True,
                                  help='Scheduler used for training. Choices are "step step_size gamma"')
+        
         self.parser.add_argument('--initial_lr',
                                  type=float,
                                  required=True,
@@ -89,11 +89,16 @@ class TrainArg(BaseArg):
                                  type=float,
                                  required=True,
                                  help='lamdba_1 for loss function')
+        
         self.parser.add_argument('--lambda_2',
                                  type=float,
                                  required=True,
                                  help='lamdba_2 for loss function')
-
+        
+        self.parser.add_argument("--sparse_extension",
+                                action="store_true",
+                                help="Enable hardware aware speed ups for jacobi iterations. Will be ignored for biharmonic problems currently.")
+        
         # epoch numbers
         self.parser.add_argument('--start_epoch',
                                  type=int,

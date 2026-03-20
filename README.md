@@ -4,6 +4,17 @@ This is a repository forked from [Ugrid](https://github.com/AXIHIXA/UGrid)
 
 Below is the relavant changes I have made and things to note. Afterwards, the rest of the readme is the same as the original Ugrid readme
 
+## Hardware aware iterators
+Compiling the hardware aware iterators
+- Ensure cuda 11.8 is installed
+- Open x64 Native Tools Command Prompt
+  - Make sure MSVC toolset (v143, 14.3x) is installed, so as to be compatible with 11.8
+- Activate conda environment
+- Run this inside the same command prompt: ```set DISTUTILS_USE_SDK=1```
+- ```python -m pip install -v -e .```
+
+## Biharmonic extension
+
 ### arg
 Added param for biharmonic_problem for test and train
 

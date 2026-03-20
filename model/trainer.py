@@ -13,7 +13,8 @@ class Trainer:
                  model, logger,
                  optimizer: str, scheduler: str, initial_lr: float, lambda_1: float, lambda_2: float,
                  start_epoch: int, max_epoch: int, save_every: int, evaluate_every: int,
-                 dataset_root: str, num_workers: int, batch_size: int, use_data: float, biharmonic_problem: bool):
+                 dataset_root: str, num_workers: int, batch_size: int, use_data: float, 
+                 biharmonic_problem: bool):
         self.experienment_name: str = experienment_name
         self.experienment_checkpoint_path: str = experienment_checkpoint_path
 
@@ -86,13 +87,14 @@ class Trainer:
                 tup: typing.Tuple[torch.Tensor, int] = self.model(x, bc_value, bc_mask, f)
                 y, iterations_used = tup
 
-                # residue: torch.Tensor = util.absolute_residue(y, bc_mask, f, reduction='none')
+                residue: torch.Tensor = util.absolute_residue(y, bc_mask, f, reduction='none')
 
-                abs_residual_norm, rel_residual_norm = util.relative_residue(y, bc_value, bc_mask, f, biharmonic=self.biharmonic_problem)
+                # abs_residual_norm, rel_residual_norm = util.relative_residue(y, bc_value, bc_mask, f, biharmonic=self.biharmonic_problem)
                 # abs_residual_norm = abs_residual_norm.mean()
                 # rel_residual_norm = rel_residual_norm.mean()
 
-                loss_x: torch.Tensor = util.norm(rel_residual_norm).mean()
+                loss_x: torch.Tensor = util.norm(residue).mean()
+                # loss_x: torch.Tensor = util.norm(rel_residual_norm).mean()
 
                 iterations_used = torch.tensor([iterations_used], dtype=torch.float32).to(self.device)
 

@@ -1,9 +1,9 @@
 import typing
-
 import torch
+import numpy as np
 # noinspection PyPep8Naming
 import torch.nn.functional as F
-
+from .jacobi_ext import jacobi
 
 __use_cpu: bool = False
 
@@ -49,7 +49,7 @@ biharmonic_jacobi_kernel = torch.tensor([
     [0,  2, -8,  2,  0],
     [1, -8,  0, -8,  1],
     [0,  2, -8,  2,  0],
-    [0,  0,  1,  0,  0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) / 20
+    [0,  0,  1,  0,  0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) / -20
 
 biharmonic_kernel = torch.tensor([
     [0,  0,  1,  0,  0],
@@ -57,6 +57,21 @@ biharmonic_kernel = torch.tensor([
     [1, -8,  20, -8,  1],
     [0,  2, -8,  2,  0],
     [0,  0,  1,  0,  0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) 
+
+poisson_jacobi_kernel_5 = torch.tensor([
+    [0,  0, -1,  0,  0],
+    [0,  0, 16,  0,  0],
+    [-1, 16, 0, 16, -1],
+    [0,  0, 16,  0,  0],
+    [0,  0, -1,  0,  0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) / 60
+
+poisson_kernel_5 = torch.tensor([
+    [0,  0,   -1,  0,  0],
+    [0,  0,   16,  0,  0],
+    [-1, 16, -60, 16, -1],
+    [0,  0,   16,  0,  0],
+    [0,  0,   -1,  0,  0]], dtype = torch.float32).view(1, 1, 5, 5).to(__device) 
+
 
 def initial_guess(bc_value: torch.Tensor, bc_mask: torch.Tensor, initialization: str) -> torch.Tensor:
     """
@@ -83,21 +98,35 @@ def jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: torch.Tensor, 
 
     return (1 - bc_mask) * y + bc_value
 
+def jacobi_step_sparse(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: torch.Tensor, f: typing.Optional[torch.Tensor], iters = 1):
+    return jacobi.jacobi_step(x, bc_value, bc_mask, f, iters)
+
 def biharmonic_jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: torch.Tensor, f: typing.Optional[torch.Tensor]):
     """
-    One iteration step of masked biharmonic iterative solver.
+    One iteration step of masked biharmonic iterative solver.  
     """
-    omega = 0.2  # weighting to improve stability
+    # omega = 0.35  # weighting to improve stability. should be less than 0.45
+    omega = 1
     y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
 
     if f is not None:
-        y = 0.05 * f - y
-    else:
-        # If f is zero: -y
-        y = -y
+        # y = 0.05 * f - y
+        y = y + 0.05 * f
+    # else:
+    #     # If f is zero: -y
+    #     y = -y
 
     y = omega * y + (1 - omega) * x
     return (1 - bc_mask) * y + bc_value
+
+    # Debugging and testing with 5x5 poisson kernel
+    # y = F.conv2d(x, poisson_jacobi_kernel_5, padding=2)
+
+    # if f is not None:
+    #     # y = 0.05 * f - y
+    #     y = y + (-1/60) * f
+
+    # return (1 - bc_mask) * y + bc_value
 
 def downsample2x(x: torch.Tensor) -> torch.Tensor:
     """
@@ -148,7 +177,7 @@ def absolute_residue(x: torch.Tensor,
     """
     # eps of size (batch_size, channel (1), image_size, image_size)
     if biharmonic:
-        eps = F.conv2d(x, biharmonic_kernel, padding=2)
+        eps = F.conv2d(x, poisson_kernel_5, padding=2)
     else:
         eps = F.conv2d(x, laplace_kernel, padding=1)
 
@@ -190,3 +219,42 @@ def relative_residue(x: torch.Tensor,
     denominator = norm(denominator)
 
     return numerator, numerator / denominator                                    # (batch_size,)
+
+def get_jacobi_iteration_matrix(A_dense):
+    """
+    Converts a global operator matrix A into the Jacobi iteration matrix M.
+    M = I - D^-1 * A
+    """
+    # Extract the diagonal elements
+    diag_elements = np.diag(A_dense)
+    
+    # Check for zeros on the diagonal to avoid division by zero
+    if np.any(diag_elements == 0):
+        raise ValueError("Matrix A has zeros on the diagonal; Jacobi will not work.")
+        
+    # Create D^-1 (inverse of the diagonal matrix)
+    # Since D is diagonal, D^-1 is just 1/elements on the diagonal
+    D_inv = np.diag(1.0 / diag_elements)
+    
+    # Create the Identity matrix of the same size
+    I = np.eye(A_dense.shape[0])
+    
+    # Calculate M = I - D^-1 @ A
+    M = I - (D_inv @ A_dense)
+    return M
+
+def get_spectral_radius(matrix):
+    """
+    Calculates the spectral radius of a given square matrix.
+    The spectral radius is the maximum absolute value of its eigenvalues.
+    """
+    # 1. Compute all complex/real eigenvalues of the matrix
+    eigenvalues = np.linalg.eigvals(matrix)
+    
+    # 2. Find the magnitude (absolute value) of each eigenvalue
+    magnitudes = np.abs(eigenvalues)
+    
+    # 3. The spectral radius is the maximum of those magnitudes
+    spectral_radius = np.max(magnitudes)
+    
+    return spectral_radius
