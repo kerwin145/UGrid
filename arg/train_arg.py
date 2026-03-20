@@ -50,9 +50,10 @@ class TrainArg(BaseArg):
                                  required=True,
                                  help='number of post-smoothing iterations testcase multigrid')
 
-        self.parser.add_argument("--biharmonic_problem",
-                                action="store_true",
-                                help="Enable solving the biharmonic problem")
+        self.parser.add_argument("--biharmonic_solver",
+            type=str,
+            choices=["stacked_poisson", "biharmonic_stencil"],
+            help="Enable solving the biharmonic problem. Stacked_poisson corresponds to double_poisson_solver.py, and biharmonic_stencil uses standard solver with altered jacobi iterations.")
 
         self.parser.add_argument('--activation',
                                  type=str,

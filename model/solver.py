@@ -21,8 +21,7 @@ class Solver:
                  num_mg_post_smoothing: int,
                  activation: str,
                  initialize_trainable_parameters: str,
-                 biharmonic_problem: bool,
-                 sparse_extension: bool):
+                 biharmonic_smoother: bool):
 
         self.structure: str = structure
         self.device: torch.device = device
@@ -32,7 +31,7 @@ class Solver:
         self.initial_guess = lambda bc_value, bc_mask: util.initial_guess(bc_value, bc_mask, 'random')
 
         self.is_train: bool = True
-        self.biharmonic_problem: bool = biharmonic_problem
+        self.biharmonic_smoother: bool = biharmonic_smoother
 
         if self.structure == 'unet':
             self.iterator = UGrid(num_mg_layers,
@@ -42,7 +41,7 @@ class Solver:
                                   upsampling_policy,
                                   activation,
                                   initialize_trainable_parameters,
-                                  biharmonic_problem, sparse_extension).to(self.device)
+                                  biharmonic_smoother).to(self.device)
         else:
             raise NotImplementedError
 
@@ -83,7 +82,7 @@ class Solver:
             if not self.is_train:
                 with torch.no_grad():
                     if iteration % 4 == 0 and \
-                            torch.all(util.absolute_residue(x, bc_mask, f, reduction='norm', biharmonic=self.biharmonic_problem) <= abs_tol):
+                            torch.all(util.absolute_residue(x, bc_mask, f, reduction='norm', biharmonic_problem=self.biharmonic_smoother) <= abs_tol):
                         break
 
         # noinspection PyUnboundLocalVariable

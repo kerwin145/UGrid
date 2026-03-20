@@ -89,7 +89,7 @@ class Trainer:
 
                 residue: torch.Tensor = util.absolute_residue(y, bc_mask, f, reduction='none')
 
-                # abs_residual_norm, rel_residual_norm = util.relative_residue(y, bc_value, bc_mask, f, biharmonic=self.biharmonic_problem)
+                abs_residual_norm, rel_residual_norm = util.relative_residue(y, bc_value, bc_mask, f, biharmonic_problem=self.biharmonic_problem)
                 # abs_residual_norm = abs_residual_norm.mean()
                 # rel_residual_norm = rel_residual_norm.mean()
 
