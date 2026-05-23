@@ -58,7 +58,10 @@ def main() -> None:
         solver = model.StackedPoissonSolver(opt.structure, opt.downsampling_policy, opt.upsampling_policy, device,
                           opt.num_iterations, opt.relative_tolerance, opt.initialize_x0,
                           opt.num_mg_layers, opt.num_mg_pre_smoothing, opt.num_mg_post_smoothing,
-                          opt.activation, opt.initialize_trainable_parameters)
+                          opt.activation, opt.initialize_trainable_parameters, 
+                          num_mg_layers2=opt.num_mg_layers2,
+                          num_mg_pre_smoothing2=opt.num_mg_pre_smoothing2,
+                          num_mg_post_smoothing2=opt.num_mg_post_smoothing2)
     else:
         solver = model.Solver(opt.structure, opt.downsampling_policy, opt.upsampling_policy, device,
                           opt.num_iterations, opt.relative_tolerance, opt.initialize_x0,

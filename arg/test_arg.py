@@ -31,15 +31,15 @@ class TestArg(BaseArg):
                                  help='epoch of experiment to load, -1 means the latest')
         
         # for biharmonic
-        self.parser.add_argument(
-            "--biharmonic_problem",
-            action="store_true",
-            help="Enable solving the biharmonic problem")
-        
+        self.parser.add_argument("--biharmonic_solver",
+            type=str,
+            choices=["stacked_poisson", "biharmonic_stencil"],
+            help="Enable solving the biharmonic problem. Stacked_poisson corresponds to double_poisson_solver.py, and biharmonic_stencil uses standard solver with altered jacobi iterations.")
+
         # for optimization
-        self.parser.add_argument("--sparse_extension",
-                        action="store_true",
-                        help="Enable sparse convolution + stacked calculations + fused iterations extension")
+        # self.parser.add_argument("--sparse_extension",
+        #                 action="store_true",
+        #                 help="Enable sparse convolution + stacked calculations + fused iterations extension")
 
         # for color test cases
         self.parser.add_argument("--color_testcase_path",                               type=str,

@@ -99,8 +99,8 @@ def biharmonic_jacobi_step(x: torch.Tensor, bc_value: torch.Tensor, bc_mask: tor
     One iteration step of masked biharmonic iterative solver.  
     """
     omega = 0.2  # weighting to improve stability
-    y = biharmonic_jacobi(x)
-    # y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
+    # y = biharmonic_jacobi(x)
+    y = F.conv2d(x, biharmonic_jacobi_kernel, padding=2)
 
     if f is not None:
         # y = 0.05 * f - y
@@ -170,11 +170,11 @@ def absolute_residue(x: torch.Tensor,
     """
     # eps of size (batch_size, channel (1), image_size, image_size)
     if biharmonic_problem:
-        # eps = F.conv2d(x, biharmonic_kernel, padding=2)
-        eps = biharmonic(x)
+        eps = F.conv2d(x, biharmonic_kernel, padding=2)
+        # eps = biharmonic(x)
     else:
-        # eps = F.conv2d(x, laplace_kernel, padding=1)
-        eps = laplacian(x)
+        eps = F.conv2d(x, laplace_kernel, padding=1)
+        # eps = laplacian(x)
 
     if f is not None:
         eps = eps - f
@@ -279,3 +279,27 @@ def biharmonic_jacobi(x: torch.Tensor) -> torch.Tensor:
         off_diag_part / 20 = (biharmonic(x) - 20·x) / 20
     """
     return (biharmonic(x) - 20.0 * x) / 20.0
+
+def get_jacobi_iteration_matrix(A: np.ndarray) -> np.ndarray:
+    """
+    Jacobi iteration matrix B = I - D^{-1} A
+    where D is the diagonal of A.
+    
+    Jacobi update: x_new = B x + D^{-1} b
+    Converges iff spectral_radius(B) < 1.
+    """
+    d = np.diag(A)                          # (n,)
+    D_inv = np.diag(1.0 / d)               # (n, n)
+    return np.eye(len(A)) - D_inv @ A
+
+
+def get_spectral_radius(B: np.ndarray) -> float:
+    """
+    Spectral radius ρ(B) = max |λ_i|.
+    For the Jacobi iteration matrix this determines convergence:
+        ρ < 1  → converges
+        ρ > 1  → diverges
+        ρ = 1  → inconclusive
+    """
+    eigenvalues = np.linalg.eigvals(B)
+    return float(np.max(np.abs(eigenvalues)))

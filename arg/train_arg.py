@@ -49,6 +49,21 @@ class TrainArg(BaseArg):
                                  type=int,
                                  required=True,
                                  help='number of post-smoothing iterations testcase multigrid')
+        
+        # for stacked poisson solver only ===================
+        self.parser.add_argument('--num_mg_layers2',
+                                 type=int,
+                                 required=False,
+                                 help='num_mg_layers, but for second pass, specific to the stacked poisson biharmonic solver.')
+        self.parser.add_argument('--num_mg_pre_smoothing2',
+                                 type=int,
+                                 required=False,
+                                 help='num_mg_pre_smoothing, but for second pass, specific to the stacked poisson biharmonic solver.')
+        self.parser.add_argument('--num_mg_post_smoothing2',
+                                 type=int,
+                                 required=False,
+                                 help='num_mg_post_smoothing, but for second pass, specific to the stacked poisson biharmonic solver.')
+        # ===================================================
 
         self.parser.add_argument("--biharmonic_solver",
             type=str,
@@ -96,9 +111,9 @@ class TrainArg(BaseArg):
                                  required=True,
                                  help='lamdba_2 for loss function')
         
-        self.parser.add_argument("--sparse_extension",
-                                action="store_true",
-                                help="Enable hardware aware speed ups for jacobi iterations. Will be ignored for biharmonic problems currently.")
+        # self.parser.add_argument("--sparse_extension",
+        #                         action="store_true",
+        #                         help="Enable hardware aware speed ups for jacobi iterations. Will be ignored for biharmonic problems currently.")
         
         # epoch numbers
         self.parser.add_argument('--start_epoch',

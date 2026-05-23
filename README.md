@@ -2,9 +2,11 @@
 
 This is a repository forked from [Ugrid](https://github.com/AXIHIXA/UGrid)
 
-Below is the relavant changes I have made and things to note. Afterwards, the rest of the readme is the same as the original Ugrid readme
+## Biharmonic extension
+- ```jacobi_residuals.ipynb```, we see how the residual norm progresses through jacobi iterations for 3x3 and 5x5 laplace stencil, as well as the 5x5 biharmonic stencil
+- In checkpoint folder, there are 9 available checkpoints, where I tested different hyper parameter settings. ```biharmonic_3``` performed the best
 
-## Hardware aware iterators
+## Hardware aware iterators (testing)
 Compiling the hardware aware iterators
 - Ensure cuda 11.8 is installed
 - Open x64 Native Tools Command Prompt
@@ -12,8 +14,11 @@ Compiling the hardware aware iterators
 - Activate conda environment
 - Run this inside the same command prompt: ```set DISTUTILS_USE_SDK=1```
 - ```python -m pip install -v -e .```
+- This was more so testing out fused kernels. Not much else here
 
-## Biharmonic extension
+## Stacked poisson (testing)
+- We tried stacking doing two stacked poisson solvers for biharmonic, but due to errors not linearly propogating, this did not perform to well.
+- More theory and work could be needed here to have the stacked solver work.
 
 ### arg
 Added param for biharmonic_problem for test and train

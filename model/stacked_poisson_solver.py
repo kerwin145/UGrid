@@ -5,6 +5,7 @@ import torch
 
 from .solver import Solver
 import util
+import torch.nn.functional as F
 
 class StackedPoissonSolver(Solver):
     """
@@ -39,6 +40,9 @@ class StackedPoissonSolver(Solver):
                  num_mg_post_smoothing: int,
                  activation: str,
                  initialize_trainable_parameters: str,
+                 num_mg_layers2: int = None, # these are for the second pass
+                 num_mg_pre_smoothing2: int = None,
+                 num_mg_post_smoothing2: int = None,
                  # --- splitting-specific ---
                  num_iterations_v: typing.Optional[int] = None,
                  relative_tolerance_v: typing.Optional[float] = None):
@@ -62,6 +66,10 @@ class StackedPoissonSolver(Solver):
             biharmonic_smoother=True,   # outer residual uses biharmonic check
         )
 
+        self.num_mg_layers2 = num_mg_layers if num_mg_layers2 is None else num_mg_layers2 
+        self.num_mg_pre_smoothing2 = num_mg_pre_smoothing if num_mg_pre_smoothing2 is None else num_mg_pre_smoothing2 
+        self.num_mg_post_smoothing2 = num_mg_post_smoothing if num_mg_post_smoothing2 is None else num_mg_post_smoothing2 
+
         # Allow independent iteration budgets for each sub-solve.
         # If not specified, mirror the outer solver's settings.
         num_iter_v = num_iterations_v if num_iterations_v is not None else num_iterations
@@ -73,9 +81,6 @@ class StackedPoissonSolver(Solver):
             upsampling_policy=upsampling_policy,
             device=device,
             initialize_x0=initialize_x0,
-            num_mg_layers=num_mg_layers,
-            num_mg_pre_smoothing=num_mg_pre_smoothing,
-            num_mg_post_smoothing=num_mg_post_smoothing,
             activation=activation,
             initialize_trainable_parameters=initialize_trainable_parameters,
             biharmonic_smoother=False,   # both sub-solvers are Poisson
@@ -85,6 +90,9 @@ class StackedPoissonSolver(Solver):
         self.solver_v: Solver = Solver(
             num_iterations=num_iter_v,
             relative_tolerance=rel_tol_v,
+            num_mg_layers=num_mg_layers,
+            num_mg_pre_smoothing=num_mg_pre_smoothing,
+            num_mg_post_smoothing=num_mg_post_smoothing,
             **shared_kwargs,
         )
 
@@ -92,26 +100,44 @@ class StackedPoissonSolver(Solver):
         self.solver_u: Solver = Solver(
             num_iterations=num_iterations,
             relative_tolerance=relative_tolerance,
+            num_mg_layers=num_mg_layers2,
+            num_mg_pre_smoothing=num_mg_pre_smoothing2,
+            num_mg_post_smoothing=num_mg_post_smoothing2,
             **shared_kwargs,
         )
+
+    def _compute_laplacian_on_boundary(
+        self,
+        u: torch.Tensor,
+        bc_mask: torch.Tensor,
+    ) -> torch.Tensor:
+        """
+        Estimate ∇²u at boundary pixels from the current u field.
+        Uses the standard 5-point discrete Laplacian conv.
+        This gives us a data-driven BC for v = ∇²u on ∂Ω.
+        """
+        lap = F.conv2d(u, util.laplace_kernel, padding=1)  # (B,1,H,W)
+        # Only return values where bc_mask == 1
+        return lap * bc_mask
 
     def _intermediate_bc(
         self,
         bc_value: torch.Tensor,
         bc_mask: torch.Tensor,
+        u_prev: typing.Optional[torch.Tensor] = None,
     ) -> typing.Tuple[torch.Tensor, torch.Tensor]:
         """
         Returns (bc_value_v, bc_mask_v) for the intermediate solve ∇²v = f.
 
-        Default: v = 0 on all boundary pixels (clamped-plate assumption).
-        Override this method for other physical BC types, e.g.:
-          - Simply supported plate: v = ∇²u_exact on boundary (known)
-          - Free edge: more involved, requires a mixed formulation
+        If u_prev is None (first outer iteration): v = 0 on boundary.
+        Otherwise: v = ∇²u_prev on boundary, computed from current estimate.
         """
-        bc_value_v = torch.zeros_like(bc_value)
-        bc_mask_v  = bc_mask                       # same mask, value pinned to 0
-        return bc_value_v, bc_mask_v
-    
+        if u_prev is None:
+            return torch.zeros_like(bc_value), bc_mask
+
+        bc_value_v = self._compute_laplacian_on_boundary(u_prev, bc_mask)
+        return bc_value_v, bc_mask
+
     def __call__(
         self,
         x: typing.Optional[torch.Tensor],
@@ -119,6 +145,7 @@ class StackedPoissonSolver(Solver):
         bc_mask: torch.Tensor,
         f: typing.Optional[torch.Tensor],
         rel_tol: typing.Optional[float] = None,
+        num_outer_iterations: int = 2, # number of BC refinement loops . Will be 1 during training 
     ) -> typing.Tuple[torch.Tensor, int]:
         """
         Solves the biharmonic ∇⁴u = f as two chained Poisson solves.
@@ -132,31 +159,43 @@ class StackedPoissonSolver(Solver):
             if rel_tol is None:
                 rel_tol = self.relative_tolerance
 
-        # ── Step 1: intermediate Poisson solve for v ──────────────────────────
-        bc_value_v, bc_mask_v = self._intermediate_bc(bc_value, bc_mask)
+        total_iters = 0
+        u = x  # warm start from caller's guess, or None on first call
 
-        # f is the RHS of the biharmonic; it becomes the RHS of ∇²v = f.
-        # If f is None, the biharmonic is ∇⁴u = 0, so ∇²v = 0 → v = 0
-        # everywhere, and step 2 reduces to a plain Laplace solve for u.
-        v, iters_v = self.solver_v(
-            x=None,              # always start v from scratch
-            bc_value=bc_value_v,
-            bc_mask=bc_mask_v,
-            f=f,
-            rel_tol=rel_tol,
-        )
+        for outer in range(num_outer_iterations):
+            # ── Step 1: solve ∇²v = f with current boundary estimate for v ──────
+            bc_value_v, bc_mask_v = self._intermediate_bc(
+                bc_value, bc_mask,
+                u_prev=u,   # None on first pass → v=0 BC, thereafter data-driven | Detached to save gpu memory, as gradients not needed here?
+            )
 
-        # ── Step 2: Poisson solve for u using v as RHS ────────────────────────
-        # v plays the role of f in ∇²u = v
-        u, iters_u = self.solver_u(
-            x=x,                 # warm-start u from caller's initial guess
-            bc_value=bc_value,
-            bc_mask=bc_mask,
-            f=v,                 # <-- the output of step 1 is the RHS here
-            rel_tol=rel_tol,
-        )
+            v, iters_v = self.solver_v(
+                x=None,           # always re-solve v from scratch
+                bc_value=bc_value_v,
+                bc_mask=bc_mask_v,
+                f=f,
+                rel_tol=rel_tol,
+            )
+            total_iters += iters_v
 
-        return u, iters_v + iters_u
+            # ── Step 2: solve ∇²u = v with original BC ───────────────────────────
+            u, iters_u = self.solver_u(
+                x=u,              # warm-start u from previous outer iteration
+                bc_value=bc_value,
+                bc_mask=bc_mask,
+                f=v,
+                rel_tol=rel_tol,
+            )
+            total_iters += iters_u
+
+            # ── Check if boundary BC has converged ───────────────────────────────
+            if not self.is_train and outer > 0:
+                new_bc_v = self._compute_laplacian_on_boundary(u, bc_mask)
+                bc_change = util.norm(new_bc_v - bc_value_v).max().item()
+                if bc_change < (rel_tol or self.relative_tolerance):
+                    break
+
+        return u, total_iters
 
     def train(self):
         self.is_train = True

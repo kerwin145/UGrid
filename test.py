@@ -12,7 +12,7 @@ import torch.utils.data
 
 from arg import TestArg
 from data import SynDat
-from model import Solver
+from model import Solver, StackedPoissonSolver
 import util
 
 
@@ -270,11 +270,24 @@ def main() -> None:
 
     # model
     opt.num_iterations = 64
-    model = Solver(opt.structure, opt.downsampling_policy, opt.upsampling_policy, device,
-                   opt.num_iterations, 1e-4, opt.initialize_x0,
-                   opt.num_mg_layers, opt.num_mg_pre_smoothing, opt.num_mg_post_smoothing,
-                   opt.activation, 'default', 
-                   opt.biharmonic_problem, opt.sparse_extension)
+
+
+    if opt.biharmonic_solver == "stacked_poisson":
+        model = StackedPoissonSolver(opt.structure, opt.downsampling_policy, opt.upsampling_policy, device,
+                          opt.num_iterations, opt.relative_tolerance, opt.initialize_x0,
+                          opt.num_mg_layers, opt.num_mg_pre_smoothing, opt.num_mg_post_smoothing,
+                          opt.activation, opt.initialize_trainable_parameters, 
+                          num_mg_layers2=opt.num_mg_layers2,
+                          num_mg_pre_smoothing2=opt.num_mg_pre_smoothing2,
+                          num_mg_post_smoothing2=opt.num_mg_post_smoothing2)
+    else:
+        model = Solver(opt.structure, opt.downsampling_policy, opt.upsampling_policy, device,
+                          opt.num_iterations, opt.relative_tolerance, opt.initialize_x0,
+                          opt.num_mg_layers, opt.num_mg_pre_smoothing, opt.num_mg_post_smoothing,
+                          opt.activation, opt.initialize_trainable_parameters, 
+                          # else case means we chose biharmonic_stencil
+                          False if opt.biharmonic_solver is None else True)
+
     loaded_checkpoint = model.load(experiment_checkpoint_path, opt.load_epoch)
     model.eval()
     logger.info(f'[Test] Checkpoint loaded from {loaded_checkpoint}\n')

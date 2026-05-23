@@ -69,12 +69,12 @@ def assemble_poisson_problem(bc_value: np.ndarray,
 
     rhs: np.ndarray = bc_value.reshape(-1)
 
-    print(rhs)
+    # print(rhs)
 
     if f is not None:
         rhs += f.reshape(-1)
 
-    print(rhs)
+    # print(rhs)
 
     return A, rhs
 
@@ -173,6 +173,86 @@ def assemble_biharmonic_problem(bc_value: np.ndarray,
             row.append(k)
             col.append(k)
             data.append(20)
+
+            k += 1
+
+    A = scipy.sparse.csr_matrix((data, (row, col)), shape=(matrix_size, matrix_size), dtype=np.float32)
+
+    rhs: np.ndarray = bc_value.reshape(-1)
+
+    if f is not None:
+        rhs += f.reshape(-1)
+    
+    return A, rhs
+
+def assemble_poisson5_problem(bc_value: np.ndarray,
+                             bc_mask: np.ndarray,
+                             f: typing.Optional[np.ndarray]) -> typing.Tuple[scipy.sparse.csr_matrix, np.ndarray]:
+    image_size: int = bc_mask.shape[0]
+    matrix_size: int = image_size * image_size  # == 1/h^2
+
+    row: typing.List[int] = []
+    col: typing.List[int] = []
+    data: typing.List[float] = []
+
+    k: int = 0
+
+    for i in range(image_size):
+        for j in range(image_size):
+            if bc_mask[i, j] == 1:
+                # boundary pixels
+                row.append(k)
+                col.append(k)
+                data.append(1)
+                k += 1
+                continue
+
+            # i, j - 2
+            if j >= 2:
+                row.append(k)
+                col.append(k - 2)
+                data.append(-1)
+            # i , j + 2
+            if j < image_size - 2:
+                row.append(k)
+                col.append(k + 2)
+                data.append(-1)
+            # i - 2, j
+            if i >= 2:
+                row.append(k)
+                col.append(k - image_size * 2)
+                data.append(-1)
+            # i + 2, j
+            if i < image_size - 2:
+                row.append(k)
+                col.append(k + image_size * 2)
+                data.append(-1)
+
+            # i, j - 1
+            if j >= 1:
+                row.append(k)
+                col.append(k - 1)
+                data.append(16)
+            # i，j + 1
+            if j < image_size - 1:
+                row.append(k)
+                col.append(k + 1)
+                data.append(16)
+            # i - 1, j
+            if i >= 1:
+                row.append(k)
+                col.append(k - image_size)
+                data.append(16)
+            # i + 1, j
+            if i < image_size - 1:
+                row.append(k)
+                col.append(k + image_size)
+                data.append(16)
+
+            # i, j
+            row.append(k)
+            col.append(k)
+            data.append(-60)
 
             k += 1
 

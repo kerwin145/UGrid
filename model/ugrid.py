@@ -160,11 +160,11 @@ class UGrid(torch.nn.Module):
             if self.biharmonic_smoother:
                 y = util.biharmonic_jacobi_step(y, bc_value, bc_mask, f)
             else:
-                if self.sparse_extension:
-                    y = util.jacobi.jacobi_step(y, bc_value, bc_mask, f, self.num_pre_smoothing)
-                    break # fused iterations
-                else:
-                    y = util.jacobi_step(y, bc_value, bc_mask, f)
+                # if self.sparse_extension:
+                #     y = util.jacobi.jacobi_step(y, bc_value, bc_mask, f, self.num_pre_smoothing)
+                #     break # fused iterations
+                # else:
+                y = util.jacobi_step(y, bc_value, bc_mask, f)
 
         # dic[f'2-x-after-presmooth'] = y.detach().squeeze().cpu().numpy()
 
@@ -192,11 +192,11 @@ class UGrid(torch.nn.Module):
             if self.biharmonic_smoother:
                 y = util.biharmonic_jacobi_step(y, bc_value, bc_mask, f)
             else:
-                if self.sparse_extension:
-                    y = util.jacobi.jacobi_step(y, bc_value, bc_mask, f, self.num_post_smoothing)
-                    break
-                else:
-                    y = util.jacobi_step(y, bc_value, bc_mask, f)
+                # if self.sparse_extension:
+                #     y = util.jacobi.jacobi_step(y, bc_value, bc_mask, f, self.num_post_smoothing)
+                #     break
+                # else:
+                y = util.jacobi_step(y, bc_value, bc_mask, f)
 
         # dic[f'6-x-after-postsmooth'] = y.detach().squeeze().cpu().numpy()
 
